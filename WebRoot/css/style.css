@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+*{
+	font-family: "微软雅黑";
+	text-decoration:none;
+}
+
+.login-div{
+	margin:140px auto 0 auto;
+	width:480px;
+	height:auto;
+}
+
+.base-table{
+	text-align:center;
+	width:100%;
+	height:auto;
+	table-layout:fixed;
+}
+
+.login-btn{
+	width:100%;
+}
+
+.welcome-title{
+	margin-top:48px;
+	width:auto;
+	height:auto;
+	font-family: "微软雅黑";
+	font-size:36px;
+	color:#3352CC;
+	text-align:center;
+}
+
+.regedit-div{
+	margin:36px auto 0 auto;
+	width:480px;
+	height:auto;
+}
+
+.menu-ul{
+	font-family: "微软雅黑";
+}
+
+.menu-ul>li{
+	padding-left:36px;
+	font-size: 28px;
+}
+
+.menu-ul>li>a{
+	color:#3352CC;
+}
+
+.username-title{
+	font-size:20px;
+}
+
+.icon-display{
+	display: inline;
+}
+
+.left-menu-ul{
+	background-color: #1A6BE6;
+	color: white;
+	font-size: 24px;
+}
+
+.main-div{
+	width: 85%;
+	float: right;
+}
+
+.welcome-home{
+	width:100%;
+	font-size: 32px;
+	color: #3d8cff;
+}
+
+.recent-info{
+	font-size: 32px;
+	font-family: "微软雅黑 Light";
+	font-weight: 300;
+	text-align: right;
+	vertical-align:middle;
+}
+
+.income-txt{
+	color: #ff240b;
+	font-weight: 400;
+}
+
+.outcome-txt{
+	color: #0aff16;
+	font-weight: 400;
+}

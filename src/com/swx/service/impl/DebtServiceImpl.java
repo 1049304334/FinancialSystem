@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.swx.dao.DebtDao;
 import com.swx.factory.ObjectFactory;
 import com.swx.service.DebtService;
+import com.swx.util.PrimaryKeyUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,6 +15,7 @@ import java.util.List;
 public class DebtServiceImpl implements DebtService{
 
     DebtDao debtDao = (DebtDao) ObjectFactory.getObject("debtDao");
+    PrimaryKeyUtil keyUtil = PrimaryKeyUtil.getKeyUtil();
 
     @Override
     public JSONObject getDebts(String familyId) {
@@ -36,5 +39,27 @@ public class DebtServiceImpl implements DebtService{
         json.put("data",credList);
         json.put("count",credList.size());
         return json;
+    }
+
+    @Override
+    public void saveCredit(HashMap map) {
+        map.put("lendId",keyUtil.getKey());
+        debtDao.saveCredit(map);
+    }
+
+    @Override
+    public void saveDebt(HashMap map) {
+        map.put("lendId",keyUtil.getKey());
+        debtDao.saveDebt(map);
+    }
+
+    @Override
+    public void editCredit(HashMap map) {
+        debtDao.editCredit(map);
+    }
+
+    @Override
+    public void editDebt(HashMap map) {
+        debtDao.editDebt(map);
     }
 }

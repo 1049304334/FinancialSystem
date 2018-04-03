@@ -3,8 +3,10 @@ package com.swx.servlet;
 import com.alibaba.fastjson.JSONObject;
 import com.swx.factory.ObjectFactory;
 import com.swx.service.DebtService;
+import com.swx.util.ReqParamToMap;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2018/4/3.
  */
+@WebServlet("/debtServlet")
 public class DebtServlet extends HttpServlet{
 
     @Override
@@ -42,11 +45,12 @@ public class DebtServlet extends HttpServlet{
      * @param req
      * @param resp
      */
-    public void getDebts(HttpServletRequest req, HttpServletResponse resp){
+    public void getDebts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         String familyId = (String) familyMap.get("family_id");
         JSONObject debtList = debtService.getDebts(familyId);
+        resp.getWriter().write(debtList.toString());
     }
 
     /**
@@ -54,10 +58,36 @@ public class DebtServlet extends HttpServlet{
      * @param req
      * @param resp
      */
-    public void getCreditors(HttpServletRequest req, HttpServletResponse resp){
+    public void getCreditors(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         String familyId = (String) familyMap.get("family_id");
         JSONObject credList = debtService.getCreditors(familyId);
+        resp.setCharacterEncoding("utf-8");
+        resp.getWriter().write(credList.toString());
+    }
+
+    public void saveCredit(HttpServletRequest req, HttpServletResponse resp){
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
+        HashMap credMap = ReqParamToMap.param2Map(req);
+        credMap.put("userId",userMap.get("id"));
+        credMap.put("familyId",userMap.get("family_id"));
+        System.out.println(userMap.get("family_id"));
+        System.out.println(credMap);
+        debtService.saveCredit(credMap);
+    }
+
+    public void editCredit(HttpServletRequest req, HttpServletResponse resp){
+
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        HashMap credMap = ReqParamToMap.param2Map(req);
+        debtService.editCredit(credMap);
+    }
+
+    public void saveDebt(HttpServletRequest req, HttpServletResponse resp){
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        HashMap debtMap = ReqParamToMap.param2Map(req);
+        debtService.editDebt(debtMap);
     }
 }

@@ -1,5 +1,6 @@
 package com.swx.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,4 +9,8 @@ import java.util.List;
 public interface DebtDao {
     List getDebts(String familyId);
     List getCreditors(String familyId);
+    void saveCredit(HashMap map);
+    void saveDebt(HashMap map);
+    void editCredit(HashMap map);
+    void editDebt(HashMap map);
 }

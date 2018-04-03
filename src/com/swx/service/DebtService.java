@@ -2,6 +2,7 @@ package com.swx.service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,4 +11,8 @@ import java.util.List;
 public interface DebtService {
     JSONObject getDebts(String familyId);
     JSONObject getCreditors(String familyId);
+    void saveCredit(HashMap map);
+    void saveDebt(HashMap map);
+    void editCredit(HashMap map);
+    void editDebt(HashMap map);
 }

@@ -50,8 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<li class="layui-nav-item">
 			<a href="javascript:;"><i class="layui-icon icon-display">&#xe6b2;</i>&nbsp;&nbsp;债权债务</a>
 			<dl class="layui-nav-child">
-				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债权管理</a></dd>
-				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债务管理</a></dd>
+				<dd><a href="javascript:showCreditor();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债权管理</a></dd>
+				<dd><a href="javascript:showDebt();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债务管理</a></dd>
 				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计</a></dd>
 			</dl>
 		</li>
@@ -101,6 +101,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             $("#mainDiv").load("/pages/saving/bankoperation.jsp");
         }
 
+        function showDebt(){
+            $("#mainDiv").load("/pages/debt/debt.jsp");
+		}
+
+		function showCreditor(){
+            $("#mainDiv").load("/pages/debt/creditor.jsp");
+		}
 	</script>
   </body>
 </html>

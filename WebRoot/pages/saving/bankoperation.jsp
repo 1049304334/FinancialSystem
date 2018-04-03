@@ -12,7 +12,7 @@
     <div class="page-header welcome-home">
         <h1>&nbsp;&nbsp;<small>存取记录</small></h1>
     </div>
-    &nbsp;<button class="layui-btn" onclick="showDepositModal()"><i class="layui-icon icon-display">&#xe642;</i>记录存取款</button>
+    &nbsp;<button class="layui-btn" onclick="showRecordModal()"><i class="layui-icon icon-display">&#xe642;</i>记录存取款</button>
 
     <div class="layui-tab layui-tab-card">
         <ul class="layui-tab-title">
@@ -60,8 +60,8 @@
                         <tr>
                             <td><label>操作类型：</label></td>
                             <td colspan="6">
-                                <select id="Type" lay-verify="required" class="layui-input">
-                                    <option value="">--请选择操作类型--</option>
+                                <select id="operationType" lay-verify="required" class="layui-input">
+                                    <option value="">请选择操作类型</option>
                                     <option value="deposit">存款</option>
                                     <option value="withdraw">取款</option>
                                 </select>
@@ -69,30 +69,39 @@
                         </tr>
                         <tr style="height:24px"></tr>
                         <tr>
-                            <td><label>收入日期：</label></td>
+                            <td><label>操作账号：</label></td>
                             <td colspan="6">
-                                <input type="text" id="incomeDate" placeholder="点击选择日期" class="layui-input"/>
+                                <select id="bankAccount" class="layui-input">
+                                    <option value="">请选择一个账户</option>
+                                </select>
                             </td>
                         </tr>
                         <tr style="height:24px"></tr>
                         <tr>
-                            <td><label>收入金额：</label></td>
+                            <td><label>操作日期：</label></td>
                             <td colspan="6">
-                                <input type="text" id="incomeAmount" placeholder="￥" autocomplete="off" class="layui-input">
+                                <input type="text" id="operationDate" placeholder="点击选择日期" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr style="height:24px"></tr>
+                        <tr>
+                            <td><label>金额：</label></td>
+                            <td colspan="6">
+                                <input type="text" id="operationAmount" placeholder="￥" autocomplete="off" class="layui-input">
                             </td>
                         </tr>
                         <tr style="height:24px"></tr>
                         <tr>
                             <td><label>备注：</label></td>
                             <td colspan="6">
-                                <textarea class="layui-textarea" placeholder="最多128个汉字" id="incomeRemark"></textarea>
+                                <textarea class="layui-textarea" placeholder="最多128个汉字" id="operationRemark"></textarea>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
-                    <button type="button" class="layui-btn" onclick="saveIncomeRecord()">保存</button>
+                    <button type="button" class="layui-btn" onclick="saveOperationRecord()">保存</button>
                 </div>
             </div>
         </div>
@@ -101,15 +110,16 @@
     <script>
 
         $(function(){
-            loadIncomeRecord()
-            loadExpandRecord()
-            getTypes();
+            initPage();
         })
 
-        function loadIncomeRecord(){
+        function initPage(){
+            loadDepositRecord();
+            loadWithdrawRecord();
+            getAccounts();
+        }
 
-            var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-            var dataUrl = "/incomeExpendServlet?method=getIncomeRecord&familyId="+familyId;
+        function loadDepositRecord(){
 
             layui.use(['table','laydate'], function(){
                 var table = layui.table;
@@ -119,7 +129,7 @@
                 var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
 
                 var obj = laydate.render({
-                    elem:'#incomeDate',
+                    elem:'#operationDate',
                     type:'date',
                     max:'limit',
                     ready:function(){
@@ -128,26 +138,22 @@
                 })
 
                 table.render({
-                    elem: '#income-table'
+                    elem: '#deposit-table'
                     ,height: 400
                     ,width:1100
-                    ,url: dataUrl
+                    ,url: '/bankAccountServlet?method=getDepositRecord'
                     ,page: true
                     ,cols: [[
-                        {field: 'amount', title: '金额', width:191,align:'center',sort:'true'}
-                        ,{field: 'type_name', title: '收入类型', width:270,align:'center',sort:'true'}
-                        ,{field: 'income_date', title: '日期', width:190,align:'center',sort:'true'}
-                        ,{field: 'true_name', title: '用户', width:270,align:'center',sort:'true'}
-                        ,{field: 'remark', title: '备注', width:172}
+                        {field: 'account_no', title: '账号', width:300,align:'center',sort:'true'}
+                        ,{field: 'amount', title: '金额', width:200,align:'center',sort:'true'}
+                        ,{field: 'operation_date', title: '存款日期', width:200,align:'center',sort:'true'}
+                        ,{field: 'remark', title: '备注', width:394}
                     ]]
                 });
             });
         }
 
-        function loadExpandRecord(){
-
-            var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-            var dataUrl = "/incomeExpendServlet?method=getExpandRecord&familyId="+familyId;
+        function loadWithdrawRecord(){
 
             layui.use(['table','laydate'], function(){
                 var table = layui.table;
@@ -166,47 +172,39 @@
                 })
 
                 table.render({
-                    elem: '#expand-table'
+                    elem: '#withdraw-table'
                     ,height: 400
                     ,width:1100
-                    ,url: dataUrl
+                    ,url: '/bankAccountServlet?method=getWithdrawRecord'
                     ,page: true
                     ,cols: [[
-                        {field: 'amount', title: '金额', width:191,align:'center',sort:'true'}
-                        ,{field: 'type_name', title: '支出类型', width:270,align:'center',sort:'true'}
-                        ,{field: 'outcome_date', title: '日期', width:190,align:'center',sort:'true'}
-                        ,{field: 'true_name', title: '用户', width:270,align:'center',sort:'true'}
-                        ,{field: 'remark', title: '备注', width:172}
+                        {field: 'account_no', title: '账号', width:300,align:'center',sort:'true'}
+                        ,{field: 'amount', title: '金额', width:200,align:'center',sort:'true'}
+                        ,{field: 'operation_date', title: '取款日期', width:200,align:'center',sort:'true'}
+                        ,{field: 'remark', title: '备注', width:394}
                     ]]
                 });
             });
         }
 
-
         /**
          * 获取此家庭所有的收入类型和收支类型，并拼接到下拉列表
          */
-        function getTypes(){
-            var incomeTypeHtml = "";
-            var expandTypeHtml = "";
+        function getAccounts(){
+            var accountHtml = "";
 
             $.ajax({
                 type:'post',
-                url:'/incomeExpendServlet?method=getTypes',
+                url:'/bankAccountServlet?method=getBankAccount',
                 async:true,
                 success:function(res){
                     var info = JSON.parse(res)
-                    var types = info.types;
-                    for(var i = 0;i < types.length;i++){
-                        if(types[i].type_direction=='收入'){
-                            incomeTypeHtml += '<option value='+types[i].type_id+'>'+types[i].type_name+'</option>';
-                        }else{
-                            expandTypeHtml += '<option value='+types[i].type_id+'>'+types[i].type_name+'</option>';
-                        }
+                    var accounts = info.data;
+                    for(var i = 0;i < accounts.length;i++){
+                        accountHtml += '<option value='+accounts[i].account_no+'>'+accounts[i].bank_name+'&nbsp;&nbsp;&nbsp;&nbsp;'+accounts[i].account_no.slice(accounts[i].account_no.length-4,accounts[i].account_no.length)+'</option>';
                     }
                     //将两条字符串拼接到两个select上
-                    $("#incomeType").append(incomeTypeHtml);
-                    $("#expandType").append(expandTypeHtml);
+                    $("#bankAccount").append(accountHtml);
                 },
                 error:function(){
                     layer.msg("获取收支类型信息失败");
@@ -214,66 +212,55 @@
             })
         }
 
-        function showDepositModal(){
+        function showRecordModal(){
             $("#incomeModal").modal('show');
         }
 
-        function hideIncomeModal(){
+        function hideRecordModal(){
             $("#incomeModal").modal('hide');
         }
 
-        function showExpandModal(){
-            $("#expandModal").modal('show');
-        }
-
-        function hideExpandModal(){
-            $("#expandModal").modal('hide');
-        }
-
         function clearModalInput() {
-            $("#incomeType").val("");
-            $("#incomeDate").val("");
-            $("#incomeAmount").val("");
-            $("#incomeRemark").val("");
 
-            $("#expandType").val("");
-            $("#expandDate").val("");
-            $("#expandAmount").val("");
-            $("#expandRemark").val("");
         }
 
         /**
          * 保存收入记录
          */
-        function saveIncomeRecord(){
+        function saveOperationRecord(){
             var record = {};
-            record.incomeType = $("#incomeType").val();
-            record.incomeDate = $("#incomeDate").val();
-            record.incomeAmount = $("#incomeAmount").val();
-            record.incomeRemark = $("#incomeRemark").val();
+            record.operationType = $("#operationType").val();
+            record.bankAccount = $("#bankAccount").val();
+            record.operationDate = $("#operationDate").val();
+            record.operationAmount = $("#operationAmount").val();
+            record.operationRemark = $("#operationRemark").val();
 
-            if(record.type==""){
-                layer.msg("请选择收入类型");
+            if(record.operationType==""){
+                layer.msg("请选择操作类型");
                 return;
             }
-            if(record.incomeDate==""){
-                layer.msg("请选择收入日期");
+            if(record.bankAccount==""){
+                layer.msg("请选择账户");
                 return;
             }
-            if(record.incomeAmount==""){
-                layer.msg("请输入收入金额");
+            if(record.operationDate==""){
+                layer.msg("请设置日期");
+                return;
+            }
+            if(record.operationAmount==""){
+                layer.msg("请输入金额");
                 return;
             }
 
             $.ajax({
                 type:'post',
                 data:record,
-                url:'/incomeExpendServlet?method=saveIncomeRecord',
+                url:'/bankAccountServlet?method=saveOperationRecord',
                 async:false,
                 success:function(){
                     layer.msg("已保存");
-                    hideIncomeModal();
-                    loadIncomeRecord();
+                    hideRecordModal();
+                    initPage();
                 },
                 error:function(){
                     layer.msg("保存失败");
@@ -281,42 +268,6 @@
             })
         }
 
-        function saveExpandRecord(){
-            var record = {};
-            record.expandType = $("#expandType").val();
-            record.expandDate = $("#expandDate").val();
-            record.expandAmount = $("#expandAmount").val();
-            record.expandRemark = $("#expandRemark").val();
-
-            if(record.expandType==""){
-                layer.msg("请选择支出类型");
-                return;
-            }
-            if(record.expandDate==""){
-                layer.msg("请选择支出日期");
-                return;
-            }
-            if(record.expandAmount==""){
-                layer.msg("请输入支出金额");
-                return;
-            }
-
-            $.ajax({
-                type:'post',
-                data:record,
-                url:'/incomeExpendServlet?method=saveExpandRecord',
-                async:false,
-                success:function(){
-                    layer.msg("已保存");
-                    hideExpandModal();
-                    loadExpandRecord();
-                    clearModalInput();
-                },
-                error:function(){
-                    layer.msg("保存失败");
-                }
-            })
-        }
     </script>
 </div>
 </body>

@@ -59,14 +59,15 @@ public class BankAccountDaoImpl implements BankAccountDao{
     @Override
     public void saveDepositRecords(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "insert into t_bank_operation values(?,?,?,?,?,?,?)";
-        jt.save(sql,map.get("operationId"),map.get("accountNo"),"存款",map.get("depositDate"),map.get("depositAmount"),map.get("userId"),map.get("familyId"));
+        String sql = "insert into t_bank_operation values(?,?,?,?,?,?,?,?)";
+        jt.save(sql,map.get("operationId"),map.get("bankAccount"),"存款",map.get("operationDate"),map.get("operationAmount"),map.get("userId"),map.get("familyId"),map.get("operationRemark"));
     }
 
     @Override
     public void saveWithdrawRecords(HashMap map) {
+        System.out.println(map);
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "insert into t_bank_operation values(?,?,?,?,?,?,?)";
-        jt.save(sql,map.get("operationId"),map.get("accountNo"),"取款",map.get("withdrawDate"),map.get("withdrawAmount"),map.get("userId"),map.get("familyId"));
+        String sql = "insert into t_bank_operation values(?,?,?,?,?,?,?,?)";
+        jt.save(sql,map.get("operationId"),map.get("bankAccount"),"取款",map.get("operationDate"),map.get("operationAmount"),map.get("userId"),map.get("familyId"),map.get("operationRemark"));
     }
 }

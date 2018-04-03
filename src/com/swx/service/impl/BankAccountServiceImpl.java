@@ -70,14 +70,13 @@ public class BankAccountServiceImpl implements BankAccountService{
     }
 
     @Override
-    public void saveDepositRecords(HashMap map) {
+    public void saveOperationRecords(HashMap map) {
         map.put("operationId",keyUtil.getKey());
-        bankAccountDao.saveDepositRecords(map);
+        if("deposit".equals(map.get("operationType"))){
+            bankAccountDao.saveDepositRecords(map);
+        }else{
+            bankAccountDao.saveWithdrawRecords(map);
+        }
     }
 
-    @Override
-    public void saveWithdrawRecords(HashMap map) {
-        map.put("operationId",keyUtil.getKey());
-        bankAccountDao.saveWithdrawRecords(map);
-    }
 }

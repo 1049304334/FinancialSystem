@@ -12,6 +12,8 @@
     <div class="page-header welcome-home">
         <h1>&nbsp;&nbsp;<small>存取记录</small></h1>
     </div>
+    &nbsp;<button class="layui-btn" onclick="showDepositModal()"><i class="layui-icon icon-display">&#xe642;</i>记录存取款</button>
+
     <div class="layui-tab layui-tab-card">
         <ul class="layui-tab-title">
             <li class="layui-this">存入记录</li>
@@ -22,14 +24,6 @@
             <!--存入记录-->
             <div class="layui-tab-item layui-show">
                 <table class="base-table">
-                    <tr>
-                        <td style="text-align: left">
-                            <button class="layui-btn" onclick="showDepositModal()"><i class="layui-icon icon-display">&#xe642;</i>记录存款</button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                     <tr style="height: auto">
                         <td colspan="4">
                             <table id="deposit-table">
@@ -42,14 +36,6 @@
             <!--取出记录-->
             <div class="layui-tab-item">
                 <table class="base-table">
-                    <tr>
-                        <td style="text-align: left">
-                            <button class="layui-btn" onclick="showExpandModal()"><i class="layui-icon icon-display">&#xe642;</i>记录取款</button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                     <tr style="height: auto">
                         <td colspan="4">
                             <table id="withdraw-table">
@@ -62,20 +48,22 @@
         </div>
     </div>
 
-    <!--存款记录模态框-->
+    <!--存取款记录模态框-->
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="incomeModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4>记录存款</h4>
+                    <h4>存取款记录</h4>
                 </div>
                 <div class="modal-body">
                     <table class="base-table">
                         <tr>
-                            <td><label>收入类型：</label></td>
+                            <td><label>操作类型：</label></td>
                             <td colspan="6">
-                                <select id="incomeType" lay-verify="required" class="layui-input">
-                                    <option value="">--请选择类型--</option>
+                                <select id="Type" lay-verify="required" class="layui-input">
+                                    <option value="">--请选择操作类型--</option>
+                                    <option value="deposit">存款</option>
+                                    <option value="withdraw">取款</option>
                                 </select>
                             </td>
                         </tr>
@@ -105,53 +93,6 @@
                 <div class="modal-footer">
                     <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
                     <button type="button" class="layui-btn" onclick="saveIncomeRecord()">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--取款记录模态框-->
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="expandModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>记录取款</h4>
-                </div>
-                <div class="modal-body">
-                    <table class="base-table">
-                        <tr>
-                            <td><label>支出类型：</label></td>
-                            <td colspan="6">
-                                <select id="expandType" lay-verify="required" class="layui-input">
-                                    <option value="">--请选择类型--</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr style="height:24px"></tr>
-                        <tr>
-                            <td><label>支出日期：</label></td>
-                            <td colspan="6">
-                                <input type="text" id="expandDate" placeholder="点击选择日期" class="layui-input"/>
-                            </td>
-                        </tr>
-                        <tr style="height:24px"></tr>
-                        <tr>
-                            <td><label>支出金额：</label></td>
-                            <td colspan="6">
-                                <input type="text" id="expandAmount" placeholder="￥" autocomplete="off" class="layui-input">
-                            </td>
-                        </tr>
-                        <tr style="height:24px"></tr>
-                        <tr>
-                            <td><label>备注：</label></td>
-                            <td colspan="6">
-                                <textarea class="layui-textarea" placeholder="最多128个汉字" id="expandRemark"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
-                    <button type="button" class="layui-btn" onclick="saveExpandRecord()">保存</button>
                 </div>
             </div>
         </div>

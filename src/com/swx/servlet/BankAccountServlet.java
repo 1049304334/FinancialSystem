@@ -102,10 +102,10 @@ public class BankAccountServlet extends HttpServlet{
     public void saveOperationRecord(HttpServletRequest req, HttpServletResponse resp){
         BankAccountService bankAccountService = (BankAccountService) ObjectFactory.getObject("bankAccountService");
         HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
-        HashMap depositRecordMap = ReqParamToMap.param2Map(req);
-        depositRecordMap.put("userId",userMap.get("id"));
-        depositRecordMap.put("familyId",userMap.get("family_id"));
-        bankAccountService.saveDepositRecords(depositRecordMap);
+        HashMap operationRecordMap = ReqParamToMap.param2Map(req);
+        operationRecordMap.put("userId",userMap.get("id"));
+        operationRecordMap.put("familyId",userMap.get("family_id"));
+        bankAccountService.saveOperationRecords(operationRecordMap);
     }
 
 }

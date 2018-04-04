@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:;"><i class="layui-icon icon-display">&#xe735;</i>&nbsp;&nbsp;储蓄管理</a>
 			<dl class="layui-nav-child">
 				<dd><a href="javascript:showBankOperations();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存取记录</a></dd>
-				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;储蓄统计</a></dd>
+				<dd><a href="javascript:showSavingStatistics();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;储蓄统计</a></dd>
 				<dd><a href="javascript:showBankAccount();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;储蓄账户</a></dd>
 			</dl>
 		</li>
@@ -70,48 +70,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</dl>
 		</li>
 	</ul>
-	<script>
-
-
-        function showIncomeAndOutcome(){
-            $("#mainDiv").load("/pages/inoutcome/incomeAndExpand.jsp");
-		}
-
-		function showInOutType(){
-            $("#mainDiv").load("/pages/home/inouttype.jsp");
-		}
-
-		function showMemberManage(){
-            $("#mainDiv").load("/pages/home/members.jsp");
-		}
-
-		function showCreateNote(){
-            $("#mainDiv").load("/pages/note/createnote.jsp");
-		}
-
-        function showNotes(){
-            $("#mainDiv").load("/pages/note/notes.jsp");
-        }
-
-        function showBankAccount(){
-            $("#mainDiv").load("/pages/saving/bankaccount.jsp");
-		}
-
-        function showBankOperations(){
-            $("#mainDiv").load("/pages/saving/bankoperation.jsp");
-        }
-
-        function showDebt(){
-            $("#mainDiv").load("/pages/debt/debt.jsp");
-		}
-
-		function showCreditor(){
-            $("#mainDiv").load("/pages/debt/creditor.jsp");
-		}
-
-		function showIncomeExpandStatistics(){
-            $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
-		}
-	</script>
   </body>
+  <script>
+
+
+      function showIncomeAndOutcome(){
+          $("#mainDiv").load("/pages/inoutcome/incomeAndExpand.jsp");
+      }
+
+      function showInOutType(){
+          $("#mainDiv").load("/pages/home/inouttype.jsp");
+      }
+
+      function showMemberManage(){
+          $("#mainDiv").load("/pages/home/members.jsp");
+      }
+
+      function showCreateNote(){
+          $("#mainDiv").load("/pages/note/createnote.jsp");
+      }
+
+      function showNotes(){
+          $("#mainDiv").load("/pages/note/notes.jsp");
+      }
+
+      function showBankAccount(){
+          $("#mainDiv").load("/pages/saving/bankaccount.jsp");
+      }
+
+      function showBankOperations(){
+          $("#mainDiv").load("/pages/saving/bankoperation.jsp");
+      }
+
+      function showDebt(){
+          $("#mainDiv").load("/pages/debt/debt.jsp");
+      }
+
+      function showCreditor(){
+          $("#mainDiv").load("/pages/debt/creditor.jsp");
+      }
+
+      function showIncomeExpandStatistics(){
+          $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
+      }
+
+      function showSavingStatistics(){
+          $("#mainDiv").load("/pages/saving/statistics.jsp");
+      }
+  </script>
 </html>

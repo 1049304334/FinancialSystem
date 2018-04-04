@@ -27,7 +27,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().split(":")[1]);
+			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if(rs.next()){
@@ -54,7 +54,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().split(":")[1]);
+			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();			
 		} 
 		catch(SQLException e){
@@ -77,7 +77,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().split(":")[1]);
+			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();			
 		} 
 		catch(SQLException e){
@@ -102,7 +102,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-		    System.out.println("SQL:"+ps.toString().split(":")[1]);
+		    System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			rs=ps.executeQuery();
 			list = ResultSetToMap.resultSetToMap(rs);
 		}
@@ -124,7 +124,6 @@ public class JDBCTemplate {
 			//获得Connection
 			conn=JDBCUtil.getConnection();
 			ps=conn.prepareStatement(sql);
-		    System.out.println(sql);
 			rs=ps.executeQuery();
 			rs.next();
 			return rs.getInt(1) ;

@@ -65,7 +65,6 @@ public class BankAccountDaoImpl implements BankAccountDao{
 
     @Override
     public void saveWithdrawRecords(HashMap map) {
-        System.out.println(map);
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
         String sql = "insert into t_bank_operation values(?,?,?,?,?,?,?,?)";
         jt.save(sql,map.get("operationId"),map.get("bankAccount"),"取款",map.get("operationDate"),map.get("operationAmount"),map.get("userId"),map.get("familyId"),map.get("operationRemark"));

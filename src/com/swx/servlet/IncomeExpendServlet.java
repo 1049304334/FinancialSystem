@@ -52,14 +52,12 @@ public class IncomeExpendServlet extends HttpServlet {
         json.put("msg","");
         json.put("count",recordList.size());
         json.put("data",recordList);
-        System.out.println(json.toString());
         resp.getWriter().write(json.toString());
     }
 
     public void getAllIncomeOutcomeType(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         resp.setCharacterEncoding("utf-8");
         String familyId = req.getParameter("familyId");
-        System.out.println(familyId);
         IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         List<HashMap<String,Object>> typeList = incomeService.getAllTypes(familyId);
         JSONObject json = new JSONObject();
@@ -67,7 +65,6 @@ public class IncomeExpendServlet extends HttpServlet {
         json.put("data",typeList);
         json.put("code","0");
         json.put("count",typeList.size());
-        System.out.println(typeList);
         resp.getWriter().write(json.toString());
     }
 
@@ -110,6 +107,13 @@ public class IncomeExpendServlet extends HttpServlet {
         incomeService.saveExpandRecord(map);
     }
 
+    /**
+     * 获取统计数据。service层会调用四个dao层方法以获得四个统计数据：收入总额、支出总额、收入按种类分组，支出按总类分组。
+     * 并以JSONObject的形式返回至页面，由js渲染图表
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     public void getStatisticData(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         HashMap cycle = ReqParamToMap.param2Map(req);

@@ -91,8 +91,6 @@ public class IncomeServiceImpl implements IncomeService{
         json.put("expand",totalExpand);
         json.put("countIncomeByType",countIncomeByType);
         json.put("countOutcomeByType",countOutcomeByType);
-
-        System.out.println(json);
         return json;
     }
 

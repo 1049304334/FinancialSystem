@@ -1,10 +1,4 @@
-<%@ page import="java.util.HashMap" %><%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2018/4/2
-  Time: 14:36
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String path = request.getContextPath();%>
 <% HashMap userMap = (HashMap) session.getAttribute("familyMap");%>

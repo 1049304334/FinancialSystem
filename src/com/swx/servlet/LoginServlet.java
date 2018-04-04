@@ -49,7 +49,6 @@ public class LoginServlet extends HttpServlet{
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
 		HashMap<String,Object> userMap = loginService.loginCheck(userName,password);
-		System.out.println(userMap);
 		JSONObject jsonObject = new JSONObject();
 		if(userMap==null){
 			jsonObject.put("res","fail");

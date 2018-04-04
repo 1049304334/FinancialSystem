@@ -11,7 +11,7 @@ import java.util.Map;
 public class ReqParamToMap {
 
     /**
-     * 用于将请求中所有的参数提取出来放入一个HashMap并返回，免于手动赋值
+     * 用于将请求中所有的参数提取出来放入一个HashMap并返回，免于手动取赋值
      * @param req
      * @return
      */

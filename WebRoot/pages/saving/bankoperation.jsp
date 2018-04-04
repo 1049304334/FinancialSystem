@@ -16,8 +16,8 @@
 
     <div class="layui-tab layui-tab-card">
         <ul class="layui-tab-title">
-            <li class="layui-this">存入记录</li>
-            <li>取出记录</li>
+            <li class="layui-this">存款记录</li>
+            <li>取款记录</li>
         </ul>
 
         <div class="layui-tab-content">

@@ -45,9 +45,9 @@
             <tr style="height: 48px;"></tr>
             <tr>
                 <td></td>
-                <td colspan="3"><label>收入类型统计</label></td>
+                <td colspan="3"><label>收入来源统计</label></td>
                 <td></td>
-                <td colspan="3"><label>支出类型统计</label></td>
+                <td colspan="3"><label>支出去向统计</label></td>
                 <td></td>
             </tr>
             <tr>
@@ -61,6 +61,12 @@
     </div>
 
 <script>
+
+    //当统计周期变化时，会调用此函数
+    $("#countCycle").change(function(){
+        var cycle = parseInt($("countCycle").val());
+        getStatisticData(cycle);
+    })
 
     $(function(){
         getStatisticData(30)
@@ -78,10 +84,7 @@
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
-                console.log(msg);
-                setProgressBar(msg);
-                setIncomeChart(msg);
-                setExpandChart(msg);
+                generateChart(msg)
             },
             error:function(){
                 layer.msg("获取统计信息失败！");
@@ -117,6 +120,13 @@
                     name: '收入来源分析',
                     type: 'pie',
                     radius: '55%',
+                    label:{            //饼图图形上的文本标签
+                        normal:{
+                            show:true,
+                            position:'', //标签的位置
+                            formatter:'{b}\n{d}%\n{c}元'
+                        }
+                    },
                     data:newArr,
                 }
             ]
@@ -136,16 +146,32 @@
         }
 
         expandChart.setOption({
+
+
             series : [
                 {
-                    name: '支出分析',
+                    name: '支出去向分析',
                     type: 'pie',
                     radius: '55%',
+                    label:{            //饼图图形上的文本标签
+                        normal:{
+                            show:true,
+                            position:'', //标签的位置
+                            formatter:'{b}\n{d}%\n{c}元'
+                        }
+                    },
+
                     data:newArr,
                 }
             ]
         })
 
+    }
+
+    function generateChart(msg){
+        setProgressBar(msg);
+        setIncomeChart(msg);
+        setExpandChart(msg);
     }
 </script>
 </body>

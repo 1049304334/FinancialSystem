@@ -39,7 +39,7 @@ public class DebtDaoImpl implements DebtDao{
     public void saveDebt(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
         String sql = "insert into t_debt values(?,?,?,?,?,?,?,?)";
-        jt.save(sql,map.get(""),map.get(""),map.get(""),map.get(""),map.get(""),map.get(""),map.get(""),map.get(""));
+        jt.save(sql,map.get("borrowId"),map.get("borrowerName"),map.get("borrowDate"),map.get("balance"),map.get("repayDate"),map.get("familyId"),map.get("userId"),map.get("remark"));
     }
 
     @Override
@@ -51,6 +51,22 @@ public class DebtDaoImpl implements DebtDao{
 
     @Override
     public void editDebt(HashMap map) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "update t_debt set balance = ?,repay_date = ?,remark = ? where borrow_id = ?";
+        jt.save(sql,map.get("balance"),map.get("repayDate"),map.get("remark"),map.get("borrowId"));
+    }
 
+    @Override
+    public void deleteCredit(String lendId) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "delete from t_creditor where lend_id = ?";
+        jt.delete(sql,lendId);
+    }
+
+    @Override
+    public void deleteDebt(String debtId) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "delete from t_debt where borrow_id = ?";
+        jt.delete(sql,debtId);
     }
 }

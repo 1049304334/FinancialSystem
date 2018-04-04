@@ -50,6 +50,7 @@ public class DebtServlet extends HttpServlet{
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         String familyId = (String) familyMap.get("family_id");
         JSONObject debtList = debtService.getDebts(familyId);
+        resp.setCharacterEncoding("utf-8");
         resp.getWriter().write(debtList.toString());
     }
 
@@ -73,8 +74,6 @@ public class DebtServlet extends HttpServlet{
         HashMap credMap = ReqParamToMap.param2Map(req);
         credMap.put("userId",userMap.get("id"));
         credMap.put("familyId",userMap.get("family_id"));
-        System.out.println(userMap.get("family_id"));
-        System.out.println(credMap);
         debtService.saveCredit(credMap);
     }
 
@@ -87,7 +86,29 @@ public class DebtServlet extends HttpServlet{
 
     public void saveDebt(HttpServletRequest req, HttpServletResponse resp){
         DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
+        HashMap debtMap = ReqParamToMap.param2Map(req);
+        debtMap.put("userId",userMap.get("id"));
+        debtMap.put("familyId",userMap.get("family_id"));
+        debtService.saveDebt(debtMap);
+    }
+
+    public void editDebt(HttpServletRequest req, HttpServletResponse resp){
+
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
         HashMap debtMap = ReqParamToMap.param2Map(req);
         debtService.editDebt(debtMap);
+    }
+
+    public void deleteCredit(HttpServletRequest req, HttpServletResponse resp){
+        String lendId = req.getParameter("lendId");
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        debtService.deleteCredit(lendId);
+    }
+
+    public void deleteDebt(HttpServletRequest req, HttpServletResponse resp){
+        String borrowId = req.getParameter("borrowId");
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        debtService.deleteDebt(borrowId);
     }
 }

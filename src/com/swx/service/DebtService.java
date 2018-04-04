@@ -15,4 +15,6 @@ public interface DebtService {
     void saveDebt(HashMap map);
     void editCredit(HashMap map);
     void editDebt(HashMap map);
+    void deleteCredit(String lendId);
+    void deleteDebt(String debtId);
 }

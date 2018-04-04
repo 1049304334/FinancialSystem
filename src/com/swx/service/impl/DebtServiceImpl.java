@@ -49,7 +49,7 @@ public class DebtServiceImpl implements DebtService{
 
     @Override
     public void saveDebt(HashMap map) {
-        map.put("lendId",keyUtil.getKey());
+        map.put("borrowId",keyUtil.getKey());
         debtDao.saveDebt(map);
     }
 
@@ -61,5 +61,15 @@ public class DebtServiceImpl implements DebtService{
     @Override
     public void editDebt(HashMap map) {
         debtDao.editDebt(map);
+    }
+
+    @Override
+    public void deleteCredit(String lendId) {
+        debtDao.deleteCredit(lendId);
+    }
+
+    @Override
+    public void deleteDebt(String debtId) {
+        debtDao.deleteDebt(debtId);
     }
 }

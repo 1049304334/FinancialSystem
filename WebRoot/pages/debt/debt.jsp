@@ -7,7 +7,7 @@
     <title></title>
 </head>
 <body>
-<div class="page-header welcome-home">
+<div class="page-header">
     <h1>&nbsp;&nbsp;<small>债务管理</small></h1>
 </div>
 
@@ -15,81 +15,96 @@
     <table class="base-table">
         <tr style="text-align: left">
             <td colspan="5">
-                <button class="layui-btn" onclick="showCreateModal()"><i class="layui-icon icon-display">&#xe654;</i>添加家庭成员</button>
+                <button class="layui-btn" onclick="showCreateModal()"><i class="layui-icon icon-display">&#xe654;</i>添加债务记录</button>
             </td>
         </tr>
     </table>
-    <table id="member-table" lay-filter="memberTable">
+    <table id="debt-table" lay-filter="debtTable">
 
     </table>
 </div>
 
-<!-- 新建家庭成员模态框 -->
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="newMemberModal">
+<!-- 新建债务模态框 -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="newDebtModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>添加家庭成员</h4>
+                <h4>添加债务记录</h4>
             </div>
             <div class="modal-body">
                 <table class="base-table">
                     <tr>
-                        <td><label>真实姓名：</label></td>
-                        <td colspan="6"><input type="text" id="trueName" class="form-control" placeholder="请设置真实姓名"/></td>
+                        <td colspan="2"><label>债权人姓名：</label></td>
+                        <td colspan="6"><input type="text" id="borrowerName" class="layui-input"/></td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
                     <tr>
-                        <td><label>登录名：</label></td>
-                        <td colspan="6"><input type="text" id="userName" class="form-control" placeholder="注册后不可修改"/></td>
+                        <td colspan="2"><label>借款日期：</label></td>
+                        <td colspan="6"><input type="text" id="borrowDate" class="layui-input"/></td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
                     <tr>
-                        <td><label>密码：</label></td>
-                        <td colspan="6"><input type="password" id="password" class="form-control"/></td>
+                        <td colspan="2"><label>金额：</label></td>
+                        <td colspan="6"><input type="text" id="balance" class="layui-input"/></td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
                     <tr>
-                        <td><label>重复密码：</label></td>
-                        <td colspan="6"><input type="password" id="repassword" class="form-control"/></td>
+                        <td colspan="2"><label>约定还款日：</label></td>
+                        <td colspan="6"><input type="text" id="repayDate" class="layui-input"/></td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
+                    <tr>
+                        <td colspan="2"><label>备注：</label></td>
+                        <td colspan="6"><textarea id="remark" class="layui-textarea"></textarea></td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
-                <button type="button" class="layui-btn" onclick="saveNewMember()">保存</button>
+                <button type="button" class="layui-btn" onclick="saveDebt()">保存</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 编辑家庭成员模态框 -->
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="editMemberModal">
+<!-- 更新债权模态框 -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="editDebtModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>修改家庭成员信息</h4>
+                <h4>更新债权信息</h4>
             </div>
             <div class="modal-body">
                 <table class="base-table">
                     <tr>
-                        <td><label>真实姓名：</label></td>
+                        <td><label>债权人</label></td>
                         <td colspan="6">
-                            <input type="text" id="editTrueName" class="form-control"/>
-                            <input type="hidden" id="userId"/>
+                            <input type="text" name="borrowerName" class="layui-input" disabled/>
+                            <input type="hidden" name="borrowId"/>
                         </td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
                     <tr>
-                        <td><label>登录名：</label></td>
-                        <td colspan="6"><input type="text" id="editUserName" class="form-control" disabled/></td>
+                        <td><label>余额</label></td>
+                        <td colspan="6">
+                            <input type="text" name="balance" class="layui-input"/>
+                        </td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
                     <tr>
-                        <td><label>密码：</label></td>
-                        <td colspan="6"><input type="password" id="editPassword" class="form-control"/></td>
+                        <td><label>还款日期</label></td>
+                        <td colspan="6">
+                            <input type="text" name="repayDate" id="newRepayDate" class="layui-input"/>
+                        </td>
                     </tr>
-                    <tr style="height: 16px"></tr>
+                    <tr style="height: 24px"></tr>
+                    <tr>
+                        <td><label>备注</label></td>
+                        <td colspan="6">
+                            <textarea name="remark" class="layui-textarea"></textarea>
+                        </td>
+                    </tr>
+                    <tr style="height: 24px"></tr>
                 </table>
             </div>
             <div class="modal-footer">
@@ -102,81 +117,130 @@
 
 
 
-<script type="text/html" id="updateMember">
-    <a class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon icon-display">&#xe642;</i>修改</a>
+<script type="text/html" id="updateDebt">
+    <a class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon icon-display">&#xe642;</i>更新</a>
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon icon-display">&#xe640;</i>删除</a>
 </script>
 
 <script>
     $(function(){
-        loadTableData();
+        initPage();
     })
 
+    function initPage(){
+        setDate();
+        loadTableData();
+        resetModalVal();
+    }
+    /**
+     * 启用模态框上的两个日期选择框，使其可以弹出日期选择
+     */
+    function setDate(){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+
+            var dateNow = new Date();
+            var maxLimit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
+
+            var date1 = laydate.render({
+                elem:'#borrowDate',
+                type:'date',
+                max:'maxLimit',
+                ready:function(){
+                    date1.hint("可选日期在今日及之前");
+                }
+            })
+
+            var date2 = laydate.render({
+                elem:'#repayDate',
+                type:'date',
+                min:'maxLimit',
+                ready:function(){
+                    date2.hint("可选日期在今日及之后");
+                }
+            })
+
+            var date3 = laydate.render({
+                elem:'#newRepayDate',
+                type:'date',
+                min:'maxLimit',
+                ready:function(){
+                    date3.hint("可选日期在今日及之后");
+                }
+            })
+        })
+    }
+
+    /**
+     * 加载表格数据
+     */
     function loadTableData(){
-        var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-        var dataUrl = "/homeManageServlet?method=getAllMembers&familyId="+familyId;
 
         layui.use('table', function(){
             var table = layui.table;
 
-            table.on('tool(memberTable)', function(obj){
+            table.on('tool(debtTable)', function(obj){
                 var data = obj.data;
                 if(obj.event==='edit'){
                     showEditModal(data);
                 }
+                if(obj.event==='del'){
+                   layer.confirm("确定删除？",function(){
+                       deleteDebt(data);
+                   })
+                }
             });
 
             table.render({
-                elem: '#member-table'
+                elem: '#debt-table'
                 ,width:1100
                 ,cellMinWidth: 0
-                ,url: dataUrl
+                ,url: '/debtServlet?method=getDebts'
                 ,page: true
                 ,cols: [[
-                    {field: 'true_name', title: '真实名称', width:500,align:"center"}
-                    ,{field: 'user_name', title: '登录名',sort:'true', width:500,align:"center"}
-                    ,{toolbar: '#updateMember',align:'center'}
+                    {field: 'balance', title: '余额', width:150,sort:'true',align:"center"}
+                    ,{field: 'borrower_name', title: '债权人', width:100,align:"center"}
+                    ,{field: 'borrow_date', title: '借款日期',sort:'true', width:175,align:"center"}
+                    ,{field: 'repay_date', title: '还款日期',sort:'true', width:175,align:"center"}
+                    ,{field: 'remark', title: '备注', width:300,align:"center"}
+                    ,{toolbar: '#updateDebt',align:'center'}
                 ]]
             });
         });
 
     }
     function showCreateModal(){
-        $("#newMemberModal").modal('show');
+        $("#newDebtModal").modal('show');
+        resetModalVal();
     }
 
     function hideCreateModal(){
-        $("#newMemberModal").modal('hide');
+        $("#newDebtModal").modal('hide');
+        resetModalVal()
     }
 
-    function saveNewMember(){
+    function saveDebt(){
         var data = {};
-        data.trueName = $("#trueName").val();
-        data.userName = $("#userName").val();
-        data.password = $("#password").val();
-        data.repassword = $("#repassword").val();
-        if(data.trueName==""||data.userName==""||data.password==""){
+        data.borrowerName = $("#borrowerName").val();
+        data.borrowDate = $("#borrowDate").val();
+        data.balance = $("#balance").val();
+        data.repayDate = $("#repayDate").val();
+        data.remark = $("#remark").val();
+
+        if(data.lenderName==""||data.lendDate==""||data.balance==""||data.repayDate==""){
             layer.msg("请将信息输入完整");
             return;
         }
-        if(data.password!=data.repassword){
-            layer.msg("两次输入的密码不一致！");
-            return;
-        }
+
         $.ajax({
             type:'post',
             async:false,
             data:data,
-            url:"/homeManageServlet?method=createNewMember",
-            success:function(msg){
-                var status = JSON.parse(msg);
-                if(status.res=='0'){
-                    layer.alert("此登录名已被占用");
-                }else{
-                    layer.msg("已保存");
-                    hideCreateModal();
-                    loadTableData();
-                    resetModalVal();
-                }
+            url:"/debtServlet?method=saveDebt",
+            success:function(){
+                layer.msg("保存成功");
+                hideCreateModal();
+                initPage();
             },
             error:function(){
                 layer.msg("保存失败");
@@ -185,39 +249,49 @@
     }
 
     function resetModalVal(){
-        $("#trueName").val("");
-        $("#userName").val("");
-        $("#password").val("");
-        $("#repassword").val("");
+        $("#borrowerName").val("");
+        $("#borrowDate").val("");
+        $("#balance").val("");
+        $("#repayDate").val("");
+        $("#remark").val("");
+
+        $("input[name='borrowerName']").val("");
+        $("input[name='balance']").val("");
+        $("input[name='repayDate']").val("");
+        $("textarea[name='remark']").val("");
     }
 
     function showEditModal(data){
-        $("#editMemberModal").modal('show');
-        $("#userId").val(data.id);
-        $("#editTrueName").val(data.true_name);
-        $("#editUserName").val(data.user_name);
-        $("#editPassword").val(data.password);
+        $("#editDebtModal").modal('show');
+        $("input[name='borrowId']").val(data.borrow_id);
+        $("input[name='borrowerName']").val(data.borrower_name);
+        $("input[name='balance']").val(data.balance);
+        $("input[name='repayDate']").val(data.repay_date);
+        $("textarea[name='remark']").val(data.remark);
     }
 
     function hideEditModal(){
-        $("#editMemberModal").modal('hide');
+        $("#editDebtModal").modal('hide');
+        resetModalVal();
     }
 
+    //待修改
     function saveEdit(){
         var data = {};
-        data.userId = $("#userId").val();
-        data.trueName = $("#editTrueName").val()
-        data.password = $("#editPassword").val();
+        data.borrowId = $("input[name='borrowId']").val();
+        data.balance = $("input[name='balance']").val();
+        data.repayDate = $("input[name='repayDate']").val();
+        data.remark = $("textarea[name='remark']").val();
 
         $.ajax({
             type:'post',
-            url:"/homeManageServlet?method=editMember",
+            url:"/debtServlet?method=editDebt",
             data:data,
             async:true,
             success:function(){
                 layer.msg("修改成功");
                 hideEditModal();
-                loadTableData();
+                initPage()
             },
             error:function(){
                 layer.msg("修改失败");
@@ -226,6 +300,25 @@
         })
     }
 
+    function deleteDebt(data){
+
+        var borrowId = data.borrow_id;
+        if(data.balance>0){
+            layer.alert("不允许删除余额大于0的债务记录");
+            return
+        }
+
+        $.ajax({
+            type:'post',
+            url:'debtServlet?method=deleteDebt&borrowId='+borrowId,
+            async:false,
+            success:function (){
+                layer.msg("已删除");
+                initPage();
+            }
+        })
+
+    }
 </script>
 </body>
 </html>

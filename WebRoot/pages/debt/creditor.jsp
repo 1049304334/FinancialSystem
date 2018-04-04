@@ -184,6 +184,11 @@
                 if(obj.event==='edit'){
                     showEditModal(data);
                 }
+                if(obj.event==='del'){
+                    layer.confirm("确定删除？",function(){
+                        deleteCredit(data);
+                    })
+                }
             });
 
             table.render({
@@ -193,11 +198,11 @@
                 ,url: '/debtServlet?method=getCreditors'
                 ,page: true
                 ,cols: [[
-                    {field: 'balance', title: '余额', width:150,align:"center"}
-                    ,{field: 'lender_name', title: '借款人',sort:'true', width:100,align:"center"}
+                    {field: 'balance', title: '余额', width:150,align:"center",sort:'true'}
+                    ,{field: 'lender_name', title: '借款人', width:100,align:"center"}
                     ,{field: 'lend_date', title: '借款日期',sort:'true', width:175,align:"center"}
                     ,{field: 'repay_date', title: '还款日期',sort:'true', width:175,align:"center"}
-                    ,{field: 'remark', title: '备注',sort:'true', width:300,align:"center"}
+                    ,{field: 'remark', title: '备注', width:300,align:"center"}
                     ,{toolbar: '#updateCredit',align:'center'}
                 ]]
             });
@@ -295,6 +300,25 @@
         })
     }
 
+    function deleteCredit(data){
+
+        var lendId = data.lend_id;
+        if(data.balance>0){
+            layer.alert("不允许删除余额大于0的债权记录");
+            return
+        }
+
+        $.ajax({
+            type:'post',
+            url:'debtServlet?method=deleteCredit&lendId='+lendId,
+            async:false,
+            success:function (){
+                layer.msg("已删除");
+                initPage();
+            }
+        })
+
+    }
 </script>
 </body>
 </html>

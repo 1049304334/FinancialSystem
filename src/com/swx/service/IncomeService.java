@@ -18,4 +18,6 @@ public interface IncomeService {
     void saveIncomeRecord(HashMap map);
     JSONObject getExpandRecord(HashMap map);
     void saveExpandRecord(HashMap map);
+    JSONObject getStatisticData(HashMap map);
+
 }

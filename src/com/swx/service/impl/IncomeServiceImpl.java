@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.swx.dao.IncomeDao;
 import com.swx.factory.ObjectFactory;
 import com.swx.service.IncomeService;
+import com.swx.util.DateUtil;
 import com.swx.util.PrimaryKeyUtil;
 
 import java.util.HashMap;
@@ -74,6 +75,25 @@ public class IncomeServiceImpl implements IncomeService{
     public void saveExpandRecord(HashMap map) {
         map.put("expandId",keyUtil.getKey());
         incomeDao.saveExpandRecord(map);
+    }
+
+    @Override
+    public JSONObject getStatisticData(HashMap map) {
+
+        map.put("startDate", DateUtil.computeDate((String) map.get("cycle")));
+
+        JSONObject json = new JSONObject();
+        HashMap totalIncome = (HashMap) incomeDao.getTotalIncome(map).get(0);
+        HashMap totalExpand = (HashMap) incomeDao.getTotalExpand(map).get(0);
+        List countIncomeByType = incomeDao.getIncomeTypeTotal(map);
+        List countOutcomeByType = incomeDao.getExpandTypeTotal(map);
+        json.put("income",totalIncome);
+        json.put("expand",totalExpand);
+        json.put("countIncomeByType",countIncomeByType);
+        json.put("countOutcomeByType",countOutcomeByType);
+
+        System.out.println(json);
+        return json;
     }
 
 

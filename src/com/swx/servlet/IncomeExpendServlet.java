@@ -21,7 +21,7 @@ import java.util.List;
 @WebServlet("/incomeExpendServlet")
 public class IncomeExpendServlet extends HttpServlet {
 
-    IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,6 +75,7 @@ public class IncomeExpendServlet extends HttpServlet {
      * 获得当前家庭所有收支类型
      */
     public void getTypes(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+        IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         String familyId = (String) familyMap.get("family_id");
         JSONObject json = incomeService.getTypes(familyId);
@@ -83,6 +84,7 @@ public class IncomeExpendServlet extends HttpServlet {
     }
 
     public void saveIncomeRecord(HttpServletRequest req,HttpServletResponse resp){
+        IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
         HashMap map = ReqParamToMap.param2Map(req);
@@ -92,17 +94,30 @@ public class IncomeExpendServlet extends HttpServlet {
     }
 
     public void getExpandRecord(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+        IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         HashMap map = ReqParamToMap.param2Map(req);
         resp.setCharacterEncoding("utf-8");
         resp.getWriter().write(incomeService.getExpandRecord(map).toString());
     }
 
     public void saveExpandRecord(HttpServletRequest req,HttpServletResponse resp){
+        IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
         HashMap familyMap = (HashMap) req.getSession().getAttribute("familyMap");
         HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
         HashMap map = ReqParamToMap.param2Map(req);
         map.put("familyId",familyMap.get("family_id"));
         map.put("userId",userMap.get("id"));
         incomeService.saveExpandRecord(map);
+    }
+
+    public void getStatisticData(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+        IncomeService incomeService = (IncomeService) ObjectFactory.getObject("incomeService");
+        HashMap cycle = ReqParamToMap.param2Map(req);
+        HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
+        cycle.put("familyId",userMap.get("family_id"));
+        JSONObject json = incomeService.getStatisticData(cycle);
+        resp.setCharacterEncoding("utf-8");
+        resp.getWriter().write(json.toString());
+
     }
 }

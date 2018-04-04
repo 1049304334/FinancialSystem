@@ -19,5 +19,8 @@ public interface IncomeDao {
     void saveIncomeRecord(HashMap map);
     List getExpandRecords(HashMap map);
     void saveExpandRecord(HashMap map);
-
+    List getTotalIncome(HashMap map);
+    List getTotalExpand(HashMap map);
+    List getIncomeTypeTotal(HashMap map);
+    List getExpandTypeTotal(HashMap map);
 }

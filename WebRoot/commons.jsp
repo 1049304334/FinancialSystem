@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="layer/layer.js"></script>
 	<script type="text/javascript" src="layui/layui.js"></script>
 	<script type="text/javascript" src="js/datatables.min.js"></script>
+	<script type="text/javascript" src="js/echarts.js"></script>
 
   </head>
   

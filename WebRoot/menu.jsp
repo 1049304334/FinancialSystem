@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:;"><i class="layui-icon icon-display">&#xe65e;</i>&nbsp;&nbsp;收支管理</a>
 			<dl class="layui-nav-child">
 				<dd><a href="javascript:showIncomeAndOutcome();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收支记录</a></dd>
-				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看统计</a></dd>
+				<dd><a href="javascript:showIncomeExpandStatistics();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看统计</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
@@ -107,6 +107,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		function showCreditor(){
             $("#mainDiv").load("/pages/debt/creditor.jsp");
+		}
+
+		function showIncomeExpandStatistics(){
+            $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
 		}
 	</script>
   </body>

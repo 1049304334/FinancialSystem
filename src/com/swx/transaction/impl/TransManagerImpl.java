@@ -43,6 +43,7 @@ public class TransManagerImpl implements TransManagerI {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			System.out.println("出现异常，事务已被回滚！");
 			JDBCUtil.close(con, null, null);
 		}
 	}

@@ -92,3 +92,32 @@
 	color: #0aff16;
 	font-weight: 400;
 }
+
+.inout-progress-bar{
+	width:96%;
+	height:24px;
+	border-radius: 4px;
+}
+
+.income-div{
+	float:left;
+	height:100%;
+	background-color: #009688;
+	color: white;
+	text-align: left;
+	border-radius: 4px;
+}
+
+.expand-div{
+	float:left;
+	height:100%;
+	background-color: #FF5722;
+	color: white;
+	text-align: left;
+	border-radius: 4px;
+}
+
+.chart-div{
+	height: 360px;
+	width: 360px;
+}

@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dl class="layui-nav-child">
 				<dd><a href="javascript:showCreditor();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债权管理</a></dd>
 				<dd><a href="javascript:showDebt();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;债务管理</a></dd>
-				<dd><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计</a></dd>
+				<dd><a href="javascript:showDebtStatistics();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
@@ -72,7 +72,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
   </body>
   <script>
-
 
       function showIncomeAndOutcome(){
           $("#mainDiv").load("/pages/inoutcome/incomeAndExpand.jsp");
@@ -117,5 +116,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       function showSavingStatistics(){
           $("#mainDiv").load("/pages/saving/statistics.jsp");
       }
+
+      function showDebtStatistics(){
+          $("#mainDiv").load("/pages/debt/statistics.jsp");
+	  }
   </script>
 </html>

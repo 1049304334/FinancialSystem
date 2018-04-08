@@ -69,4 +69,32 @@ public class DebtDaoImpl implements DebtDao{
         String sql = "delete from t_debt where borrow_id = ?";
         jt.delete(sql,debtId);
     }
+
+    @Override
+    public List getCreditSum(HashMap map) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "select sum(balance) as totalCredit from t_creditor where family_id = ? ";
+        return jt.query(sql,map.get("familyId"));
+    }
+
+    @Override
+    public List getDebtSum(HashMap map) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "select sum(balance) as totalDebt from t_debt where family_id = ? ";
+        return jt.query(sql,map.get("familyId"));
+    }
+
+    @Override
+    public List getRepayingCredit(HashMap map) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "select * from t_creditor where repay_date > (select now()) and repay_date < ? and family_id = ?";
+        return jt.query(sql,map.get("repayDate"),map.get("familyId"));
+    }
+
+    @Override
+    public List getRepayingDebt(HashMap map) {
+        jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+        String sql = "select * from t_debt where repay_date > (select now()) and repay_date < ? and family_id = ?";
+        return jt.query(sql,map.get("repayDate"),map.get("familyId"));
+    }
 }

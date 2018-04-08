@@ -24,4 +24,13 @@ public class DateUtil {
 		return df.format(calendar.getTime());
 	}
 
+	public static String computeAfterDate(String days){
+		int cycle = Integer.parseInt(days);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(calendar.DAY_OF_MONTH,cycle);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return df.format(calendar.getTime());
+	}
+
 }

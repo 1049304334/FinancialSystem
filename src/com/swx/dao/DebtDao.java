@@ -15,4 +15,9 @@ public interface DebtDao {
     void editDebt(HashMap map);
     void deleteCredit(String lendId);
     void deleteDebt(String debtId);
+    List getCreditSum(HashMap map);
+    List getDebtSum(HashMap map);
+    List getRepayingCredit(HashMap map);
+    List getRepayingDebt(HashMap map);
+
 }

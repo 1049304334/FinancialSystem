@@ -16,7 +16,6 @@
             <ul class="layui-tab-title">
                 <li class="layui-this">收入记录</li>
                 <li>支出记录</li>
-                <li>总览</li>
             </ul>
 
             <div class="layui-tab-content">
@@ -59,9 +58,6 @@
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="layui-tab-item">
-                    总览模块
                 </div>
             </div>
         </div>

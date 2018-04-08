@@ -15,37 +15,45 @@
 
 <div class="container main-div">
     <table class="base-table">
-        <tr style="text-align: left">
-            <td><label>统计周期：</label></td>
-            <td colspan="1">
-                <select id="countCycle" class="form-control">
-                    <option value="30" selected>30天内</option>
-                    <option value="90">90天内</option>
-                    <option value="365">一年内</option>
-                </select>
+        <tr>
+            <td colspan="2"></td>
+            <td><label>债权总额:</label></td>
+            <td><label style="color: #FF5722;font-size: 24px" id="totalCredit">650</label></td>
+            <td></td>
+            <td><label>债务总额:</label></td>
+            <td><label style="color: #009688;font-size: 24px" id="totalDebt">623</label></td>
+            <td colspan="2"></td>
+        </tr>
+        <tr style="height: 48px;">
+            <td colspan="9"><hr/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3"><label>30日内到期债权</label></td>
+            <td></td>
+            <td colspan="3"><label>30日内到期债务</label></td>
+            <td></td>
+        </tr>
+        <tr style="height:24px"></tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td colspan="2">
+                <div style="text-align: left">
+                    <ul class="layui-timeline" id="creditTimeLine">
+
+                    </ul>
+                </div>
             </td>
-            <td colspan="6"></td>
-        </tr>
-        <tr style="height: 24px;"></tr>
-    </table>
-    <table class="base-table">
-        <tr style="text-align: left">
-            <td><label>存取总计:</label></td>
-            <td colspan="8"></td>
-        </tr>
-        <tr style="height: 48px;"></tr>
-        <tr>
             <td></td>
-            <td colspan="3"><label>存款统计</label></td>
             <td></td>
-            <td colspan="3"><label>取款统计</label></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="3"><div id="depositChart" class="chart-div"></div></td>
-            <td></td>
-            <td colspan="3"><div id="withdrawChart" class="chart-div"></div></td>
+            <td colspan="2">
+                <div style="text-align: left">
+                    <ul class="layui-timeline" id="debtTimeLine">
+
+                    </ul>
+                </div>
+            </td>
             <td></td>
         </tr>
     </table>
@@ -53,31 +61,25 @@
 
 <script>
 
-    //当统计周期变化时，会调用此函数
-    $("#countCycle").change(function(){
-        var cycle = parseInt($("countCycle").val());
-        getStatisticData(cycle);
-    })
-
     $(function(){
-        getStatisticData(30)
+        getStatisticData()
     })
 
     /**
      * 获取统计数据
      * @param cycle 统计周期
      */
-    function getStatisticData(cycle){
-        var cycle = $("#countCycle").val();//统计周期
-        //统计周期支持用户手动输入天数，但使用下拉列表可免于校验
+    function getStatisticData(){
+
         $.ajax({
             type:'post',
-            url:'/bankAccountServlet?method=getStatisticData&cycle='+cycle,
+            url:'/debtServlet?method=getStatisticData&cycle='+30,
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
                 console.log(msg);
-                generateChart(msg)
+                showTotal(msg);
+                generateTimeline(msg);
             },
             error:function(){
                 layer.msg("获取统计信息失败！");
@@ -85,85 +87,44 @@
         })
     }
 
-
-    function setDepositChart(data){
-        var depositChart = echarts.init(document.getElementById('depositChart'));
-        var deposit = data.depositSum;
-        var amountArr = [];
-        var xAxisArr = [];
-        for(var i=0;i<deposit.length;i++){
-            xAxisArr.push(deposit[i].bank_name+" "+deposit[i].account_no.slice(deposit[i].account_no.length-4,deposit[i].account_no.length))
-            amountArr.push(deposit[i].depositSum);
-        }
-
-        depositChart.setOption({
-            grid:{
-                x:50,
-                y:50,
-                x2:50,
-                y2:50,
-                borderWidth:1
-            },
-            xAxis: {
-                data: xAxisArr,
-            },
-            yAxis: {},
-            series: [{
-                name: '存款额',
-                type: 'bar',
-                barMaxWidth:30,
-                data: amountArr,
-                label:{
-                    normal:{
-                        show:true,
-                        position:'top',
-                    }
-                },
-            }]
-        })
+    function showTotal(msg){
+        $("#totalCredit")[0].innerText = msg.totalCredit.totalCredit;
+        $("#totalDebt")[0].innerText = msg.totalDebt.totalDebt;
     }
 
-    function setWithdrawChart(data){
+    function setCreditTimeline(data){
 
-        var withdrawChart = echarts.init(document.getElementById('withdrawChart'));
-        var deposit = data.withdrawSum;
-        var amountArr = [];
-        var xAxisArr = [];
-        for(var i=0;i<deposit.length;i++){
-            xAxisArr.push(deposit[i].bank_name+" "+deposit[i].account_no.slice(deposit[i].account_no.length-4,deposit[i].account_no.length))
-            amountArr.push(deposit[i].withdrawSum);
+        for(var i=0;i<data.repayingCredit.length;i++){
+            var str1 = "<li class='layui-timeline-item'>";
+            var str2 = "<i class='layui-icon layui-timeline-axis'></i>"
+            var str3 = "<div class='layui-timeline-content layui-text'>";
+            var str4 = "<h3 class='layui-timeline-title'>"+data.repayingCredit[i].repay_date+"</h3>";
+            var str5 = "<p>"+data.repayingCredit[i].lender_name+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.repayingCredit[i].balance+"<br/>"+data.repayingCredit[i].remark+"</p>";
+            var str6 = "</div></li>";
+
+            var timelineHtml = str1+str2+str3+str4+str5+str6;
+            $("#creditTimeLine").append(timelineHtml);
         }
-
-        withdrawChart.setOption({
-            grid:{
-                x:50,
-                y:50,
-                x2:50,
-                y2:50,
-                borderWidth:1
-            },
-            xAxis: {
-                data: xAxisArr,
-            },
-            yAxis: {},
-            series: [{
-                name: '存款额',
-                type: 'bar',
-                barMaxWidth:30,
-                data: amountArr,
-                label:{
-                    normal:{
-                        show:true,
-                        position:'top',
-                    }
-                },
-            }]
-        })
     }
 
-    function generateChart(msg){
-        setDepositChart(msg);
-        setWithdrawChart(msg);
+    function setDebtTimeline(data){
+
+        for(var i=0;i<data.repayingDebt.length;i++){
+            var str1 = "<li class='layui-timeline-item'>";
+            var str2 = "<i class='layui-icon layui-timeline-axis'></i>"
+            var str3 = "<div class='layui-timeline-content layui-text'>";
+            var str4 = "<h3 class='layui-timeline-title'>"+data.repayingCredit[i].repay_date+"</h3>";
+            var str5 = "<p>"+data.repayingDebt[i].borrower_name+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.repayingDebt[i].balance+"<br/>"+data.repayingDebt[i].remark+"</p>";
+            var str6 = "</div></li>";
+
+            var timelineHtml = str1+str2+str3+str4+str5+str6;
+            $("#debtTimeLine").append(timelineHtml);
+        }
+    }
+
+    function generateTimeline(msg){
+        setCreditTimeline(msg);
+        setDebtTimeline(msg);
     }
 </script>
 </body>

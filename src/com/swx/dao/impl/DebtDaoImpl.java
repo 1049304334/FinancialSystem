@@ -87,14 +87,14 @@ public class DebtDaoImpl implements DebtDao{
     @Override
     public List getRepayingCredit(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select * from t_creditor where repay_date > (select now()) and repay_date < ? and family_id = ?";
+        String sql = "select * from t_creditor where repay_date > (select now()) and repay_date < ? and family_id = ? order by repay_date asc";
         return jt.query(sql,map.get("repayDate"),map.get("familyId"));
     }
 
     @Override
     public List getRepayingDebt(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select * from t_debt where repay_date > (select now()) and repay_date < ? and family_id = ?";
+        String sql = "select * from t_debt where repay_date > (select now()) and repay_date < ? and family_id = ? order by repay_date asc";
         return jt.query(sql,map.get("repayDate"),map.get("familyId"));
     }
 }

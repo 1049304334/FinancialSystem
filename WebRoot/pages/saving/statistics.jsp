@@ -55,7 +55,7 @@
 
     //当统计周期变化时，会调用此函数
     $("#countCycle").change(function(){
-        var cycle = parseInt($("countCycle").val());
+        var cycle = parseInt($("#countCycle").val());
         getStatisticData(cycle);
     })
 
@@ -76,7 +76,6 @@
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
-                console.log(msg);
                 generateChart(msg)
             },
             error:function(){

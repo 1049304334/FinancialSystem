@@ -27,7 +27,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
+			System.out.println("SQL"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if(rs.next()){
@@ -54,7 +54,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
+			System.out.println("SQL"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();			
 		} 
 		catch(SQLException e){
@@ -77,7 +77,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-			System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
+			System.out.println("SQL"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			ps.executeUpdate();			
 		} 
 		catch(SQLException e){
@@ -102,7 +102,7 @@ public class JDBCTemplate {
 		    for(int i=0;i<params.length;i++){
 		    	ps.setObject(i+1,params[i]);
 		    }
-		    System.out.println("SQL:"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
+		    System.out.println("SQL"+ps.toString().substring(ps.toString().indexOf(":"),ps.toString().length()));
 			rs=ps.executeQuery();
 			list = ResultSetToMap.resultSetToMap(rs);
 		}

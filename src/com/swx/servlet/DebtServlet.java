@@ -111,4 +111,13 @@ public class DebtServlet extends HttpServlet{
         DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
         debtService.deleteDebt(borrowId);
     }
+
+    public void getStatisticData(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        DebtService debtService = (DebtService) ObjectFactory.getObject("debtService");
+        HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
+        HashMap map = ReqParamToMap.param2Map(req);
+        map.put("familyId",userMap.get("family_id"));
+        JSONObject json = debtService.getStatisticsData(map);
+        resp.getWriter().write(json.toString());
+    }
 }

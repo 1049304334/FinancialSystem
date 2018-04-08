@@ -17,4 +17,5 @@ public interface DebtService {
     void editDebt(HashMap map);
     void deleteCredit(String lendId);
     void deleteDebt(String debtId);
+    JSONObject getStatisticsData(HashMap map);
 }

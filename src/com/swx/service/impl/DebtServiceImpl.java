@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.swx.dao.DebtDao;
 import com.swx.factory.ObjectFactory;
 import com.swx.service.DebtService;
+import com.swx.util.DateUtil;
 import com.swx.util.PrimaryKeyUtil;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,5 +73,16 @@ public class DebtServiceImpl implements DebtService{
     @Override
     public void deleteDebt(String debtId) {
         debtDao.deleteDebt(debtId);
+    }
+
+    @Override
+    public JSONObject getStatisticsData(HashMap map) {
+        JSONObject json = new JSONObject();
+        map.put("repayDate", DateUtil.computeAfterDate((String) map.get("cycle")));
+        json.put("totalCredit",(HashMap) debtDao.getCreditSum(map).get(0));
+        json.put("totalDebt",(HashMap) debtDao.getDebtSum(map).get(0));
+        json.put("repayingCredit",debtDao.getRepayingCredit(map));
+        json.put("repayingDebt",debtDao.getRepayingDebt(map));
+        return json;
     }
 }

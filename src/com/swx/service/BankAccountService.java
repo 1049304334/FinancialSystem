@@ -16,4 +16,5 @@ public interface BankAccountService {
     JSONObject getDepositRecords(String userId);
     JSONObject getWithdrawRecords(String userId);
     void saveOperationRecords(HashMap map);
+    JSONObject getSavingStatistics(HashMap map);
 }

@@ -108,4 +108,11 @@ public class BankAccountServlet extends HttpServlet{
         bankAccountService.saveOperationRecords(operationRecordMap);
     }
 
+    public void getStatisticData(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        BankAccountService bankAccountService = (BankAccountService) ObjectFactory.getObject("bankAccountService");
+        HashMap userMap = (HashMap) req.getSession().getAttribute("userMap");
+        HashMap operationRecordMap = ReqParamToMap.param2Map(req);
+        operationRecordMap.put("familyId",userMap.get("family_id"));
+        resp.getWriter().write( bankAccountService.getSavingStatistics(operationRecordMap).toString());
+    }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.swx.dao.BankAccountDao;
 import com.swx.factory.ObjectFactory;
 import com.swx.service.BankAccountService;
+import com.swx.util.DateUtil;
 import com.swx.util.PrimaryKeyUtil;
 
 import java.util.HashMap;
@@ -77,6 +78,19 @@ public class BankAccountServiceImpl implements BankAccountService{
         }else{
             bankAccountDao.saveWithdrawRecords(map);
         }
+    }
+
+    @Override
+    public JSONObject getSavingStatistics(HashMap map) {
+        JSONObject json = new JSONObject();
+        map.put("cycle", DateUtil.computeDate((String) map.get("cycle")));
+        List depositSum = bankAccountDao.getDepositSum(map);
+        List withdrawSum = bankAccountDao.getWithdrawSum(map);
+        System.out.println(depositSum);
+        System.out.println(withdrawSum);
+        json.put("depositSum",depositSum);
+        json.put("withdrawSum",withdrawSum);
+        return json;
     }
 
 }

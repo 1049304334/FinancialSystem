@@ -30,27 +30,22 @@
         </table>
         <table class="base-table">
             <tr style="text-align: left">
-                <td><label>收支总计:</label></td>
-                <td colspan="9">
-                    <div class="inout-progress-bar">
-                        <div class="income-div"></div>
-                        <div class="expand-div"></div>
-                    </div>
-                </td>
+                <td><label>存取总计:</label></td>
+                <td colspan="8"></td>
             </tr>
             <tr style="height: 48px;"></tr>
             <tr>
                 <td></td>
-                <td colspan="3"><label>收入来源统计</label></td>
+                <td colspan="3"><label>存款统计</label></td>
                 <td></td>
-                <td colspan="3"><label>支出去向统计</label></td>
+                <td colspan="3"><label>取款统计</label></td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="3"><div id="incomeChart" class="chart-div"></div></td>
+                <td colspan="3"><div id="depositChart" class="chart-div"></div></td>
                 <td></td>
-                <td colspan="3"><div id="expandChart" class="chart-div"></div></td>
+                <td colspan="3"><div id="withdrawChart" class="chart-div"></div></td>
                 <td></td>
             </tr>
         </table>
@@ -77,10 +72,11 @@
         //统计周期支持用户手动输入天数，但使用下拉列表可免于校验
         $.ajax({
             type:'post',
-            url:'/incomeExpendServlet?method=getStatisticData&cycle='+cycle,
+            url:'/bankAccountServlet?method=getStatisticData&cycle='+cycle,
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
+                console.log(msg);
                 generateChart(msg)
             },
             error:function(){
@@ -89,89 +85,85 @@
         })
     }
 
-    //设置收入支出进度条的宽度和文字
-    function setProgressBar(data){
-        var totalIncome = parseFloat(data.income.totalIncome);
-        var totalExpand = parseFloat(data.expand.totalExpand);
-        var incomeRate = totalIncome/(totalIncome + totalExpand)*100;
-        var expandRate = 100 - incomeRate;
-        $(".income-div").width(Math.round(incomeRate)+"%");
-        $(".expand-div").width(Math.round(expandRate)+"%");
-        $(".income-div")[0].innerHTML="&nbsp;&nbsp;总收入："+totalIncome+"元";
-        $(".expand-div")[0].innerHTML="&nbsp;&nbsp;总支出："+totalExpand+"元";
-        //宽度的改变可能会影响div中文字的样式，下面两行代码用于设置div的title属性。
-        //当div的宽度太小以至于文字无法正常显示时，将鼠标移至div上悬停，就可以看到以文字提示形式出现的金额提示
-        $(".income-div").attr("title","总收入："+totalIncome+"元");
-        $(".expand-div").attr("title","总支出："+totalExpand+"元");
-    }
 
-    function setIncomeChart(data){
-        var incomeChart = echarts.init(document.getElementById('incomeChart'));
-        var incomes = data.countIncomeByType;
-        var newArr = [];
-        for(var i=0;i<incomes.length;i++){
-            var obj = {};
-            obj.name = incomes[i].type_name;
-            obj.value = incomes[i].total;
-            newArr.push(obj)
+    function setDepositChart(data){
+        var depositChart = echarts.init(document.getElementById('depositChart'));
+        var deposit = data.depositSum;
+        var amountArr = [];
+        var xAxisArr = [];
+        for(var i=0;i<deposit.length;i++){
+            xAxisArr.push(deposit[i].bank_name+" "+deposit[i].account_no.slice(deposit[i].account_no.length-4,deposit[i].account_no.length))
+            amountArr.push(deposit[i].depositSum);
         }
 
-        incomeChart.setOption({
-            series : [
-                {
-                    name: '收入来源分析',
-                    type: 'pie',
-                    radius: '55%',
-                    label:{            //饼图图形上的文本标签
-                        normal:{
-                            show:true,
-                            position:'', //标签的位置
-                            formatter:'{b}\n{d}%\n{c}元'
-                        }
-                    },
-                    data:newArr,
-                }
-            ]
+        depositChart.setOption({
+            grid:{
+                x:50,
+                y:50,
+                x2:50,
+                y2:50,
+                borderWidth:1
+            },
+            xAxis: {
+                data: xAxisArr,
+            },
+            yAxis: {},
+            series: [{
+                name: '存款额',
+                type: 'bar',
+                barMaxWidth:30,
+                data: amountArr,
+                label:{
+                    normal:{
+                        show:true,
+                        position:'top',
+                    }
+                },
+            }]
         })
-
     }
 
-    function setExpandChart(data){
-        var expandChart = echarts.init(document.getElementById('expandChart'));
-        var incomes = data.countOutcomeByType;
-        var newArr = [];
-        for(var i=0;i<incomes.length;i++){
-            var obj = {};
-            obj.name = incomes[i].type_name;
-            obj.value = incomes[i].total;
-            newArr.push(obj)
+    function setWithdrawChart(data){
+
+        var withdrawChart = echarts.init(document.getElementById('withdrawChart'));
+        var deposit = data.withdrawSum;
+        var amountArr = [];
+        var xAxisArr = [];
+        for(var i=0;i<deposit.length;i++){
+            xAxisArr.push(deposit[i].bank_name+" "+deposit[i].account_no.slice(deposit[i].account_no.length-4,deposit[i].account_no.length))
+            amountArr.push(deposit[i].withdrawSum);
         }
 
-        expandChart.setOption({
-
-            series : [
-                {
-                    name: '支出去向分析',
-                    type: 'pie',
-                    radius: '55%',
-                    label:{            //饼图图形上的文本标签
-                        normal:{
-                            show:true,
-                            position:'', //标签的位置
-                            formatter:'{b}\n{d}%\n{c}元'
-                        }
-                    },
-                    data:newArr,
-                }
-            ]
+        withdrawChart.setOption({
+            grid:{
+                x:50,
+                y:50,
+                x2:50,
+                y2:50,
+                borderWidth:1
+            },
+            xAxis: {
+                data: xAxisArr,
+            },
+            yAxis: {},
+            series: [{
+                name: '存款额',
+                type: 'bar',
+                barMaxWidth:30,
+                data: amountArr,
+                label:{
+                    normal:{
+                        show:true,
+                        position:'top',
+                    }
+                },
+            }]
         })
-
     }
 
     function generateChart(msg){
-        setProgressBar(msg);
-        setIncomeChart(msg);
-        setExpandChart(msg);
+        setDepositChart(msg);
+        setWithdrawChart(msg);
     }
 </script>
 </body>

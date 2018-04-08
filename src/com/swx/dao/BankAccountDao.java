@@ -16,4 +16,6 @@ public interface BankAccountDao {
     List getWithdrawRecords(String userId);
     void saveDepositRecords(HashMap map);
     void saveWithdrawRecords(HashMap map);
+    List getDepositSum(HashMap map);
+    List getWithdrawSum(HashMap map);
 }

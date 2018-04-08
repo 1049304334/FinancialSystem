@@ -27,13 +27,13 @@
             <tr style="height: 28px"></tr>
             <tr>
                 <td>近一个月收入：</td>
-                <td><small><span class="income-txt">10000.00</span></small></td>
-                <td rowspan="3"><button class="layui-btn"><i class="layui-icon icon-display">&#xe602;</i>查看详情</button></td>
+                <td><small><span class="income-txt" id="recentIncome">获取中</span></small></td>
+                <td rowspan="3"><button class="layui-btn" onclick="showIncomes()"><i class="layui-icon icon-display">&#xe602;</i>查看详情</button></td>
             </tr>
             <tr style="height: 28px"></tr>
             <tr>
                 <td>支出：</td>
-                <td><small><span class="outcome-txt">9999.00</span></small></td>
+                <td><small><span class="outcome-txt" id="recentExpand">获取中</span></small></td>
                 <td></td>
             </tr>
             <tr style="height: 48px">
@@ -43,8 +43,8 @@
             </tr>
             <tr>
                 <td>待办事项：</td>
-                <td><small>2个待办事项</small></td>
-                <td><button class="layui-btn"><i class="layui-icon icon-display">&#xe63c;</i>查看备忘</button></td>
+                <td><small id="recentNotes">获取中</small></td>
+                <td><button class="layui-btn" onclick="showNotes()"><i class="layui-icon icon-display">&#xe63c;</i>查看备忘</button></td>
             </tr>
             <tr style="height: 48px">
                 <td colspan="3">
@@ -53,13 +53,56 @@
             </tr>
             <tr>
                 <td>债权债务：</td>
-                <td><small>共2笔</small></td>
-                <td><button class="layui-btn"><i class="layui-icon icon-display">&#xe602;</i>查看详情</button></td>
+                <td><small id="recentDebts">获取中</small></td>
+                <td><button class="layui-btn" onclick="showDebts()"><i class="layui-icon icon-display">&#xe602;</i>查看详情</button></td>
             </tr>
             <tr style="height: 96px"></tr>
         </table>
         <hr/>
 
     </div>
+<script>
+
+    $(function(){
+        $.ajax({
+            type:'post',
+            url:'/loginServlet?method=getHomePageInfo',
+            async:true,
+            success:function(msg){
+                var data = JSON.parse(msg);
+                setValueToPage(data);
+            },
+            error:function(){
+                layer.msg("获取首页信息失败");
+            }
+        })
+    })
+
+    function setValueToPage(data){
+        console.log(data);
+        $("#recentIncome")[0].innerText = data.recentIncome.totalIncome;
+        $("#recentExpand")[0].innerText = data.recentExpand.totalExpand;
+        $("#recentNotes")[0].innerText = data.recentNoteNum.num+"个待办事项";
+        $("#recentDebts")[0].innerText = "共"+(parseInt(data.recentCreditNum.num)+parseInt(data.recentDebtNum.num))+"笔";
+    }
+
+    function showIncomes(){
+        $(".layui-nav-item:eq(1)").addClass("layui-nav-itemed");
+        $(".layui-nav-item:eq(1)>dl>dd:eq(1)").addClass("layui-this");
+        $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
+    }
+
+    function showDebts(){
+        $(".layui-nav-item:eq(3)").addClass("layui-nav-itemed");
+        $(".layui-nav-item:eq(3)>dl>dd:eq(2)").addClass("layui-this");
+        $("#mainDiv").load("/pages/debt/statistics.jsp");
+    }
+
+    function showNotes(){
+        $(".layui-nav-item:eq(4)").addClass("layui-nav-itemed");
+        $(".layui-nav-item:eq(4)>dl>dd:eq(1)").addClass("layui-this");
+        $("#mainDiv").load("/pages/note/notes.jsp");
+    }
+</script>
 </body>
 </html>

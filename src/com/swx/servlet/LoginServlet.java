@@ -86,4 +86,12 @@ public class LoginServlet extends HttpServlet{
 	public void index(HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		resp.sendRedirect(req.getContextPath()+"/index.jsp");
 	}
+
+	public void getHomePageInfo(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+		HashMap map = (HashMap) req.getSession().getAttribute("userMap");
+		HashMap paramMap = new HashMap();
+		paramMap.put("familyId",map.get("family_id"));
+		LoginService loginService = (LoginService) ObjectFactory.getObject("loginService");
+		resp.getWriter().write(loginService.getHomePageInfo(paramMap).toString());
+	}
 }

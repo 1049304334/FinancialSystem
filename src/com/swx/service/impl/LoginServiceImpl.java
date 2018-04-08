@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.swx.dao.LoginDao;
 import com.swx.factory.ObjectFactory;
 import com.swx.po.Family;
 import com.swx.po.User;
 import com.swx.service.LoginService;
+import com.swx.util.DateUtil;
 import com.swx.util.PrimaryKeyUtil;
 
 public class LoginServiceImpl implements LoginService{
@@ -48,6 +50,18 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public HashMap<String,Object> getFamilyInfo(String familyId) {
 		return loginDao.getFamilyInfo(familyId).get(0);
+	}
+
+	@Override
+	public JSONObject getHomePageInfo(HashMap map) {
+		map.put("limitDate", DateUtil.computeDate("30"));
+		JSONObject json = new JSONObject();
+		json.put("recentIncome",loginDao.getRecentIncome(map).get(0));
+		json.put("recentExpand",loginDao.getRecentExpand(map).get(0));
+		json.put("recentCreditNum",loginDao.getRecentCreditNum(map).get(0));
+		json.put("recentDebtNum",loginDao.getRecentDebtNum(map).get(0));
+		json.put("recentNoteNum",loginDao.getRecentNoteNum(map).get(0));
+		return json;
 	}
 
 

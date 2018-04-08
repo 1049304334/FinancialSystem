@@ -56,4 +56,39 @@ public class LoginDaoImpl implements LoginDao{
 		List<HashMap<String,Object>> familyList = template.query(sql,familyId);
 		return familyList;
 	}
+
+	@Override
+	public List getRecentIncome(HashMap map) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select sum(amount) as totalIncome from t_income where family_id = ? and income_date > ?";
+		return template.query(sql,map.get("familyId"),map.get("limitDate"));
+	}
+
+	@Override
+	public List getRecentExpand(HashMap map) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select sum(amount) as totalExpand from t_outcome where family_id = ? and outcome_date > ?";
+		return template.query(sql,map.get("familyId"),map.get("limitDate"));
+	}
+
+	@Override
+	public List getRecentCreditNum(HashMap map) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select count(1) as num from t_creditor where family_id = ? and balance != 0";
+		return template.query(sql,map.get("familyId"));
+	}
+
+	@Override
+	public List getRecentDebtNum(HashMap map) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select count(1) as num from t_debt where family_id = ? and balance != 0";
+		return template.query(sql,map.get("familyId"));
+	}
+
+	@Override
+	public List getRecentNoteNum(HashMap map) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select count(1) as num from t_notes where family_id = ? and tip_time < (select now())";
+		return template.query(sql,map.get("familyId"));
+	}
 }

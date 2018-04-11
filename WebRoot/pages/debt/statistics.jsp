@@ -98,8 +98,8 @@
             var str1 = "<li class='layui-timeline-item'>";
             var str2 = "<i class='layui-icon layui-timeline-axis'></i>"
             var str3 = "<div class='layui-timeline-content layui-text'>";
-            var str4 = "<h3 class='layui-timeline-title'>"+data.repayingCredit[i].repay_date+"</h3>";
-            var str5 = "<p>"+data.repayingCredit[i].lender_name+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.repayingCredit[i].balance+"<br/>"+data.repayingCredit[i].remark+"</p>";
+            var str4 = "<h3 class='layui-timeline-title'>"+"<b>"+data.repayingCredit[i].repay_date.slice(5,10)+"</b>"+"</h3>";
+            var str5 = "<p>"+data.repayingCredit[i].lender_name+"&nbsp;&nbsp;&nbsp;&nbsp;"+"<b style='color: red'>"+data.repayingCredit[i].balance+" 元"+"</b>"+"<br/><i>"+data.repayingCredit[i].remark+"</i></p>";
             var str6 = "</div></li>";
 
             var timelineHtml = str1+str2+str3+str4+str5+str6;
@@ -113,8 +113,8 @@
             var str1 = "<li class='layui-timeline-item'>";
             var str2 = "<i class='layui-icon layui-timeline-axis'></i>"
             var str3 = "<div class='layui-timeline-content layui-text'>";
-            var str4 = "<h3 class='layui-timeline-title'>"+data.repayingCredit[i].repay_date+"</h3>";
-            var str5 = "<p>"+data.repayingDebt[i].borrower_name+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.repayingDebt[i].balance+"<br/>"+data.repayingDebt[i].remark+"</p>";
+            var str4 = "<h3 class='layui-timeline-title'><b>"+data.repayingCredit[i].repay_date.slice(5,10)+"</b>"+"</h3>";
+            var str5 = "<p>"+data.repayingDebt[i].borrower_name+"&nbsp;&nbsp;&nbsp;&nbsp;<b style='color: red'>"+data.repayingDebt[i].balance+" 元"+"</b><br/><i>"+data.repayingDebt[i].remark+"</i></p>";
             var str6 = "</div></li>";
 
             var timelineHtml = str1+str2+str3+str4+str5+str6;

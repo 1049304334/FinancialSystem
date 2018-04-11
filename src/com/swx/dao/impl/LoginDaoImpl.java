@@ -88,7 +88,7 @@ public class LoginDaoImpl implements LoginDao{
 	@Override
 	public List getRecentNoteNum(HashMap map) {
 		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-		String sql = "select count(1) as num from t_notes where family_id = ? and tip_time < (select now())";
+		String sql = "select count(1) as num from t_notes where family_id = ? and tip_time > (select now())";
 		return template.query(sql,map.get("familyId"));
 	}
 }

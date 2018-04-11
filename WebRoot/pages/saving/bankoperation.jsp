@@ -191,7 +191,7 @@
          * 获取此家庭所有的收入类型和收支类型，并拼接到下拉列表
          */
         function getAccounts(){
-            var accountHtml = "";
+            var accountHtml = "<option value=''>请选择账户</option>";
 
             $.ajax({
                 type:'post',
@@ -204,6 +204,7 @@
                         accountHtml += '<option value='+accounts[i].account_no+'>'+accounts[i].bank_name+'&nbsp;&nbsp;&nbsp;&nbsp;'+accounts[i].account_no.slice(accounts[i].account_no.length-4,accounts[i].account_no.length)+'</option>';
                     }
                     //将两条字符串拼接到两个select上
+                    $("#bankAccount").empty();
                     $("#bankAccount").append(accountHtml);
                 },
                 error:function(){
@@ -218,6 +219,8 @@
 
         function hideRecordModal(){
             $("#incomeModal").modal('hide');
+            $("#incomeModal input").val("");
+            $("#incomeModal select").val("");
         }
 
         function clearModalInput() {

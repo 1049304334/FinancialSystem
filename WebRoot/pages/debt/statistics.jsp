@@ -77,7 +77,6 @@
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
-                console.log(msg);
                 showTotal(msg);
                 generateTimeline(msg);
             },

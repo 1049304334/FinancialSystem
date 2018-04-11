@@ -77,12 +77,12 @@
                 var dateNow = new Date();
                 var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
 
-                var ins22 = laydate.render({
+                var tipTime = laydate.render({
                     elem: '#tipTime'
                     ,type:'datetime'
                     ,min: 'limit'
                     ,ready: function(){
-                        ins22.hint('日期可选值设定在'+limit+'之后');
+                        tipTime.hint('日期可选值设定在'+limit+'之后');
                     }
                 });
             })
@@ -143,7 +143,7 @@
 
         function showEditModal(note){
             $("#editNoteModal").modal('show');
-            $("#tipTime").val(note.tip_time);
+            $("#tipTime").attr("placeholder",note.tip_time);
             $("#noteContent").val(note.note_content);
             $("#noteId").val(note.note_id);
         }

@@ -120,6 +120,7 @@
         }
 
         incomeChart.setOption({
+
             series: [
                 {
                     name: '收入来源分析',

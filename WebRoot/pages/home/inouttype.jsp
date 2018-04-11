@@ -77,7 +77,7 @@
             table.on('tool(typeTable)', function(obj){
                 var data = obj.data;
                 if(obj.event==='del'){
-                    layer.confirm('确定删除么', function(index){
+                    layer.confirm('<b>确定删除此类型吗？</b><br/>删除后不影响查看此类型下的收支记录', function(index){
                         deleteType(data);
                         obj.del();
                         layer.close(index);

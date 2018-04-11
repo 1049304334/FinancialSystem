@@ -79,7 +79,7 @@
             table.on('tool(accountTableFilter)', function(obj){
                 var data = obj.data;
                 if(obj.event==='del'){
-                    layer.confirm('确定删除么', function(index){
+                    layer.confirm('<b>确定删除吗？</b><br/>删除后，此账户的操作记录也将无法查看', function(index){
                         deleteAccount(data);
                         obj.del();
                         layer.close(index);
@@ -109,6 +109,7 @@
 
     function hideModal(){
         $("#newAccountModal").modal('hide');
+        $("#newAccountModal input").val("");
     }
 
     function saveNewAccount(){

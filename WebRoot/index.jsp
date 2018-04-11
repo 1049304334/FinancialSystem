@@ -106,12 +106,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     noteArr.push(info.notes[i]);
                 }
             }
-
         }
 
         //每5秒请求一次
         $(function(){
-            //setInterval("getNoteTips()",5000)
+            setInterval("getNoteTips()",5000)
         })
 
   </script>

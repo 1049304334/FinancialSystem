@@ -195,7 +195,7 @@
                 elem: '#credit-table'
                 ,width:1100
                 ,cellMinWidth: 0
-                ,url: '/debtServlet?method=getCreditors'
+                ,url: '<%=path%>/debtServlet?method=getCreditors'
                 ,page: true
                 ,cols: [[
                     {field: 'balance', title: '余额', width:150,align:"center",sort:'true'}
@@ -236,7 +236,7 @@
             type:'post',
             async:false,
             data:data,
-            url:"/debtServlet?method=saveCredit",
+            url:"<%=path%>/debtServlet?method=saveCredit",
             success:function(){
                 layer.msg("保存成功");
                 hideCreateModal();
@@ -285,7 +285,7 @@
 
         $.ajax({
             type:'post',
-            url:"/debtServlet?method=editCredit",
+            url:"<%=path%>/debtServlet?method=editCredit",
             data:data,
             async:true,
             success:function(){
@@ -310,7 +310,7 @@
 
         $.ajax({
             type:'post',
-            url:'debtServlet?method=deleteCredit&lendId='+lendId,
+            url:'<%=path%>/debtServlet?method=deleteCredit&lendId='+lendId,
             async:false,
             success:function (){
                 layer.msg("已删除");

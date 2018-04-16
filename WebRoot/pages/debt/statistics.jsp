@@ -73,7 +73,7 @@
 
         $.ajax({
             type:'post',
-            url:'/debtServlet?method=getStatisticData&cycle='+30,
+            url:'<%=path%>/debtServlet?method=getStatisticData&cycle='+30,
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);

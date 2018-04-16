@@ -58,6 +58,13 @@ public class LoginDaoImpl implements LoginDao{
 	}
 
 	@Override
+	public List getUserInfo(String userId) {
+		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
+		String sql = "select u.id,u.true_name,u.user_name,u.password,f.family_name from t_user u,t_family f where u.id = ? and u.family_id = f.family_id";
+		return template.query(sql,userId);
+	}
+
+	@Override
 	public List getRecentIncome(HashMap map) {
 		template = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
 		String sql = "select sum(amount) as totalIncome from t_income where family_id = ? and income_date > ?";

@@ -80,8 +80,6 @@ public class IncomeServiceImpl implements IncomeService{
     @Override
     public JSONObject getStatisticData(HashMap map) {
 
-        map.put("startDate", DateUtil.computeDate((String) map.get("cycle")));
-
         JSONObject json = new JSONObject();
         HashMap totalIncome = (HashMap) incomeDao.getTotalIncome(map).get(0);
         HashMap totalExpand = (HashMap) incomeDao.getTotalExpand(map).get(0);
@@ -91,6 +89,7 @@ public class IncomeServiceImpl implements IncomeService{
         json.put("expand",totalExpand);
         json.put("countIncomeByType",countIncomeByType);
         json.put("countOutcomeByType",countOutcomeByType);
+        System.out.println(json.toString());
         return json;
     }
 

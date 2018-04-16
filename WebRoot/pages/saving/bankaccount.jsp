@@ -71,7 +71,7 @@
 
     function loadTableData(){
         var userId = <%="'"+userMap.get("id")+"'"%>;
-        var dataUrl = "/bankAccountServlet?method=getBankAccount&userId="+userId;
+        var dataUrl = "<%=path%>/bankAccountServlet?method=getBankAccount&userId="+userId;
 
         layui.use('table', function(){
             var table = layui.table;
@@ -125,7 +125,7 @@
             type:'post',
             async:false,
             data:data,
-            url:"/bankAccountServlet?method=saveBankAccount",
+            url:"<%=path%>/bankAccountServlet?method=saveBankAccount",
             success:function(msg){
                 var status = JSON.parse(msg);
                 if(status.res=='0'){
@@ -149,7 +149,7 @@
             type:'post',
             data:data,
             async:true,
-            url:'bankAccountServlet?method=deleteAccount',
+            url:'<%=path%>/bankAccountServlet?method=deleteAccount',
             error:function(){
                 layer.msg("删除失败");
             }

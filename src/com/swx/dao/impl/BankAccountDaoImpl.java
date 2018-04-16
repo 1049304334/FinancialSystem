@@ -45,14 +45,14 @@ public class BankAccountDaoImpl implements BankAccountDao{
     @Override
     public List getDepositRecords(String userId) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select * from t_bank_operation where user_id = ? and operation_type = '存款'";
+        String sql = "select * from t_bank_operation where user_id = ? and operation_type = '存款' order by operation_date desc";
         return jt.query(sql,userId);
     }
 
     @Override
     public List getWithdrawRecords(String userId) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select * from t_bank_operation where user_id = ? and operation_type = '取款'";
+        String sql = "select * from t_bank_operation where user_id = ? and operation_type = '取款' order by operation_date desc";
         return jt.query(sql,userId);
     }
 
@@ -90,10 +90,12 @@ public class BankAccountDaoImpl implements BankAccountDao{
            .append("operation_type = '存款' ")
            .append("and ")
            .append("operation_date > ? ")
+           .append("and ")
+           .append("operation_date < ? ")
            .append("group by ")
            .append("o.account_no");
 
-        return jt.query(sql.toString(),map.get("familyId"),map.get("cycle"));
+        return jt.query(sql.toString(),map.get("familyId"),map.get("startDate"),map.get("endDate"));
     }
 
     @Override
@@ -115,8 +117,10 @@ public class BankAccountDaoImpl implements BankAccountDao{
                 .append("operation_type = '取款' ")
                 .append("and ")
                 .append("operation_date > ? ")
+                .append("and ")
+                .append("operation_date < ? ")
                 .append("group by ")
                 .append("o.account_no");
-        return jt.query(sql.toString(),map.get("familyId"),map.get("cycle"));
+        return jt.query(sql.toString(),map.get("familyId"),map.get("startDate"),map.get("endDate"));
     }
 }

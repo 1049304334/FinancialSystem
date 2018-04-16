@@ -168,7 +168,7 @@
             function loadIncomeRecord(){
 
                 var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-                var dataUrl = "/incomeExpendServlet?method=getIncomeRecord&familyId="+familyId;
+                var dataUrl = "<%=path%>/incomeExpendServlet?method=getIncomeRecord&familyId="+familyId;
 
                 layui.use(['table','laydate'], function(){
                     var table = layui.table;
@@ -206,7 +206,7 @@
             function loadExpandRecord(){
 
                 var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-                var dataUrl = "/incomeExpendServlet?method=getExpandRecord&familyId="+familyId;
+                var dataUrl = "<%=path%>/incomeExpendServlet?method=getExpandRecord&familyId="+familyId;
 
                 layui.use(['table','laydate'], function(){
                     var table = layui.table;
@@ -251,7 +251,7 @@
 
                 $.ajax({
                     type:'post',
-                    url:'/incomeExpendServlet?method=getTypes',
+                    url:'<%=path%>/incomeExpendServlet?method=getTypes',
                     async:true,
                     success:function(res){
                         var info = JSON.parse(res)
@@ -327,7 +327,7 @@
                 $.ajax({
                     type:'post',
                     data:record,
-                    url:'/incomeExpendServlet?method=saveIncomeRecord',
+                    url:'<%=path%>/incomeExpendServlet?method=saveIncomeRecord',
                     async:false,
                     success:function(){
                         layer.msg("已保存");
@@ -363,7 +363,7 @@
                 $.ajax({
                     type:'post',
                     data:record,
-                    url:'/incomeExpendServlet?method=saveExpandRecord',
+                    url:'<%=path%>/incomeExpendServlet?method=saveExpandRecord',
                     async:false,
                     success:function(){
                         layer.msg("已保存");

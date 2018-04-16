@@ -15,25 +15,26 @@
 
     <div class="container main-div">
         <table class="base-table">
-            <tr style="text-align: left">
-                <td><label>统计周期：</label></td>
-                <td colspan="1">
-                    <select id="countCycle" class="form-control">
-                        <option value="30" selected>30天内</option>
-                        <option value="90">90天内</option>
-                        <option value="365">一年内</option>
-                    </select>
+            <tr>
+                <td><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计周期：</label></td>
+                <td>从</td>
+                <td colspan="2" >
+                    <input type="text" class="layui-input" id="startDate" placeholder="选择开始日期"/>
                 </td>
-                <td colspan="6"></td>
+                <td>到</td>
+                <td colspan="2" >
+                    <input type="text" class="layui-input" id="endDate" placeholder="选择结束日期"/>
+                </td>
+                <td><button class="layui-btn" onclick="getStatisticData()"><i class="layui-icon icon-display" style="font-size: 16px">&#xe615;</i>查看</button></td>
+                <td colspan="2"></td>
             </tr>
             <tr style="height: 24px;"></tr>
         </table>
         <table class="base-table">
-            <tr style="text-align: left">
-                <td><label>存取总计:</label></td>
+            <tr>
+                <td>&nbsp;&nbsp;<label>存取总计:</label></td>
                 <td colspan="8"></td>
             </tr>
-            <tr style="height: 48px;"></tr>
             <tr>
                 <td></td>
                 <td colspan="3"><label>存款统计</label></td>
@@ -53,30 +54,63 @@
 
 <script>
 
-    //当统计周期变化时，会调用此函数
-    $("#countCycle").change(function(){
-        var cycle = parseInt($("#countCycle").val());
-        getStatisticData(cycle);
-    })
 
     $(function(){
-        getStatisticData(30)
+        initStartDate();
+        initEndDate();
     })
 
+    function initStartDate(){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            var dateNow = new Date();
+            var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
+            var startDate = laydate.render({
+                elem:'#startDate',
+                type:'date',
+                max:limit,
+
+            })
+        })
+    }
+
+    function initEndDate(){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            var dateNow = new Date();
+            var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
+            var endDate = laydate.render({
+                elem:'#endDate',
+                type:'date',
+                max:limit,
+
+            })
+        })
+    }
     /**
      * 获取统计数据
      * @param cycle 统计周期
      */
-    function getStatisticData(cycle){
-        var cycle = $("#countCycle").val();//统计周期
-        //统计周期支持用户手动输入天数，但使用下拉列表可免于校验
+    function getStatisticData(){
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        if(startDate==""||endDate==""||startDate>endDate){
+            layer.alert("日期输入有误，请重新输入");
+            return;
+        }
+        var dateRange = {};
+        dateRange.startDate = startDate;
+        dateRange.endDate = endDate;
+
         $.ajax({
             type:'post',
-            url:'/bankAccountServlet?method=getStatisticData&cycle='+cycle,
+            data:dateRange,
+            url:'<%=path%>/bankAccountServlet?method=getStatisticData',
             async:true,
             success:function(data){
                 var msg = JSON.parse(data);
                 generateChart(msg)
+                console.log(msg)
             },
             error:function(){
                 layer.msg("获取统计信息失败！");
@@ -100,12 +134,17 @@
                 x:50,
                 y:50,
                 x2:50,
-                y2:50,
+                y2:70,
                 borderWidth:1
             },
             xAxis: {
                 data: xAxisArr,
+                axisLabel: {  
+   					interval:0,  
+   					rotate:40  
+				},
             },
+            
             yAxis: {},
             series: [{
                 name: '存款额',
@@ -138,11 +177,15 @@
                 x:50,
                 y:50,
                 x2:50,
-                y2:50,
+                y2:70,
                 borderWidth:1
             },
             xAxis: {
                 data: xAxisArr,
+                axisLabel: {  
+   					interval:0,  
+   					rotate:40  
+				},
             },
             yAxis: {},
             series: [{
@@ -161,6 +204,21 @@
     }
 
     function generateChart(msg){
+
+        if(msg.depositSum.length==0&&msg.withdrawSum.length==0){
+            layer.msg("没有这段时间内的存取款记录");
+            return;
+        }
+        if(msg.depositSum.length==0&&msg.withdrawSum.length!=0){
+            layer.msg("没有这段时间内的存款记录");
+            setWithdrawChart(msg);
+            return;
+        }
+        if(msg.depositSum.length!=0&&msg.withdrawSum.length==0){
+            layer.msg("没有这段时间内的取款记录");
+            setDepositChart(msg);
+            return;
+        }
         setDepositChart(msg);
         setWithdrawChart(msg);
     }

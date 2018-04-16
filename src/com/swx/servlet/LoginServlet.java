@@ -5,6 +5,7 @@ import com.swx.factory.ObjectFactory;
 import com.swx.po.Family;
 import com.swx.po.User;
 import com.swx.service.LoginService;
+import com.swx.util.VerificationCodeImgUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -46,10 +48,17 @@ public class LoginServlet extends HttpServlet{
 	}
 	
 	public void loginCheck(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+		JSONObject jsonObject = new JSONObject();
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
+		String veriCode = req.getParameter("veriCode");
+		String code = (String) req.getSession().getAttribute("code");
+		if(!code.equals(veriCode)){
+			jsonObject.put("res","1");
+			resp.getWriter().write(jsonObject.toString());
+			return;
+		}
 		HashMap<String,Object> userMap = loginService.loginCheck(userName,password);
-		JSONObject jsonObject = new JSONObject();
 		if(userMap==null){
 			jsonObject.put("res","fail");
 		}else{
@@ -94,4 +103,32 @@ public class LoginServlet extends HttpServlet{
 		LoginService loginService = (LoginService) ObjectFactory.getObject("loginService");
 		resp.getWriter().write(loginService.getHomePageInfo(paramMap).toString());
 	}
+	
+	public void exitLogin(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		req.getSession().invalidate();
+		resp.sendRedirect(req.getContextPath()+"/login.jsp");
+	}
+
+	public void getUserInfo(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+		HashMap map = (HashMap) req.getSession().getAttribute("userMap");
+		LoginService loginService = (LoginService) ObjectFactory.getObject("loginService");
+		JSONObject json = loginService.getUserInfo((String) map.get("id"));
+		resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(json.toString());
+	}
+
+	/**
+	 * 生成图片验证码，并将验证码内容放入session,将图片显示到页面
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
+	public void generateVerificationCode(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+		HttpSession session = req.getSession();
+		OutputStream outputStream = resp.getOutputStream();
+		String code = VerificationCodeImgUtil.create(120,48,"jpeg",outputStream);
+		System.out.println(code);
+		session.setAttribute("code",code);
+	}
+
 }

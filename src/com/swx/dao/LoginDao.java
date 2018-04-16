@@ -9,11 +9,13 @@ import com.swx.po.Family;
 import com.swx.po.User;
 
 public interface LoginDao {
-	 List<HashMap<String,Object>> loginCheck(Map<String,Object> map);
+	 List<HashMap<String,Object>> loginCheck(Map<String, Object> map);
 	 List<HashMap<String,Object>> regeditChek(String userName);
 	 void createFamily(Family family);
 	 void createUser(User user);
 	 List<HashMap<String,Object>> getFamilyInfo(String familyId);
+	 List getUserInfo(String userId);
+
 
 	 List getRecentIncome(HashMap map);
 	 List getRecentExpand(HashMap map);

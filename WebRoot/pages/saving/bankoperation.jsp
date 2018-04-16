@@ -141,7 +141,7 @@
                     elem: '#deposit-table'
                     ,height: 400
                     ,width:1100
-                    ,url: '/bankAccountServlet?method=getDepositRecord'
+                    ,url: '<%=path%>/bankAccountServlet?method=getDepositRecord'
                     ,page: true
                     ,cols: [[
                         {field: 'account_no', title: '账号', width:300,align:'center',sort:'true'}
@@ -175,7 +175,7 @@
                     elem: '#withdraw-table'
                     ,height: 400
                     ,width:1100
-                    ,url: '/bankAccountServlet?method=getWithdrawRecord'
+                    ,url: '<%=path%>/bankAccountServlet?method=getWithdrawRecord'
                     ,page: true
                     ,cols: [[
                         {field: 'account_no', title: '账号', width:300,align:'center',sort:'true'}
@@ -195,7 +195,7 @@
 
             $.ajax({
                 type:'post',
-                url:'/bankAccountServlet?method=getBankAccount',
+                url:'<%=path%>/bankAccountServlet?method=getBankAccount',
                 async:true,
                 success:function(res){
                     var info = JSON.parse(res)
@@ -258,7 +258,7 @@
             $.ajax({
                 type:'post',
                 data:record,
-                url:'/bankAccountServlet?method=saveOperationRecord',
+                url:'<%=path%>/bankAccountServlet?method=saveOperationRecord',
                 async:false,
                 success:function(){
                     layer.msg("已保存");

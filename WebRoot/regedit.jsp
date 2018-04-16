@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<label style="float: left">&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=path %>/login.jsp"><i class="layui-icon" style="font-size:24px;color:#00a3cc">&#xe65c;返回登录</i></a></label>
     <div class="welcome-title">
   		<label>注册</label>
   	</div>
@@ -94,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    data.userName=userName;
 		    $.ajax({
 				type:"post",
-				url:"loginServlet?method=regeditCheck",
+				url:"<%=path%>/loginServlet?method=regeditCheck",
 				data:data,
 				async:true,
 				success:function(msg){

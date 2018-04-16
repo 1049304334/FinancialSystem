@@ -90,7 +90,7 @@
 
         function loadTableData(){
             var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-            var dataUrl = "/noteServlet?method=getAllNote&familyId="+familyId;
+            var dataUrl = "<%=path%>/noteServlet?method=getAllNote&familyId="+familyId;
             layui.use('table', function(){
                 var table = layui.table;
 
@@ -130,7 +130,7 @@
                 type:'post',
                 data:data,
                 async:true,
-                url:'/noteServlet?method=deleteNote',
+                url:'<%=path%>/noteServlet?method=deleteNote',
                 success:function(){
                     layer.msg("删除成功");
                     loadTableData();
@@ -163,7 +163,7 @@
             $.ajax({
                 type:'post',
                 data:data,
-                url:"/noteServlet?method=editNote",
+                url:"<%=path%>/noteServlet?method=editNote",
                 async:false,
                 success:function (){
                     layer.msg("修改成功");

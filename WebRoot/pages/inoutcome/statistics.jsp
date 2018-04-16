@@ -8,28 +8,29 @@
 </head>
 <body>
 <div class="page-header">
-    <h1>&nbsp;&nbsp;<small>收支统计</small>
-    </h1>
+    <h1>&nbsp;&nbsp;<small>收支统计</small></h1>
 </div>
 
 <div class="container main-div">
     <table class="base-table">
-        <tr style="text-align: left">
-            <td><label>统计周期：</label></td>
-            <td colspan="1">
-                <select id="countCycle" class="form-control">
-                    <option value="30" selected>30天内</option>
-                    <option value="90">90天内</option>
-                    <option value="365">一年内</option>
-                </select>
+        <tr>
+            <td><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计周期：</label></td>
+            <td>从</td>
+            <td colspan="2" >
+                <input type="text" class="layui-input" id="startDate" placeholder="选择开始日期"/>
             </td>
-            <td colspan="6"></td>
+            <td>到</td>
+            <td colspan="2" >
+                <input type="text" class="layui-input" id="endDate" placeholder="选择结束日期"/>
+            </td>
+            <td><button class="layui-btn" onclick="getStatisticData()"><i class="layui-icon icon-display" style="font-size: 16px">&#xe615;</i>查看</button></td>
+            <td colspan="2"></td>
         </tr>
         <tr style="height: 24px;"></tr>
     </table>
     <table class="base-table">
-        <tr style="text-align: left">
-            <td><label>收支总计:</label></td>
+        <tr>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;<label>收支总计:</label></td>
             <td colspan="9">
                 <div class="inout-progress-bar">
                     <div class="income-div"></div>
@@ -61,26 +62,56 @@
 
 <script>
 
-    //当统计周期变化时，会调用此函数
-    $("#countCycle").change(function () {
-        var cycle = parseInt($("countCycle").val());
-        getStatisticData(cycle);
+    $(function(){
+        initStartDate();
+        initEndDate();
     })
 
-    $(function () {
-        getStatisticData(30)
-    })
+    function initStartDate(){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            var dateNow = new Date();
+            var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
+            var startDate = laydate.render({
+                elem:'#startDate',
+                type:'date',
+                max:limit,
+
+            })
+        })
+    }
+
+    function initEndDate(){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            var dateNow = new Date();
+            var limit = dateNow.getFullYear()+'-'+(dateNow.getMonth()+1)+'-'+dateNow.getDate();
+            var endDate = laydate.render({
+                elem:'#endDate',
+                type:'date',
+                max:limit,
+
+            })
+        })
+    }
 
     /**
      * 获取统计数据
      * @param cycle 统计周期
      */
-    function getStatisticData(cycle) {
-        var cycle = $("#countCycle").val();//统计周期
-        //统计周期支持用户手动输入天数，但使用下拉列表可免于校验
+    function getStatisticData() {
+
+        var dateRange = {};
+        dateRange.startDate = $("#startDate").val();
+        dateRange.endDate = $("#endDate").val();
+        if(dateRange.startDate==""||dateRange.endDate==""||dateRange.startDate>dateRange.endDate){
+            layer.alert("日期输入有误，请重新输入");
+            return;
+        }
         $.ajax({
             type: 'post',
-            url: '/incomeExpendServlet?method=getStatisticData&cycle=' + cycle,
+            data:dateRange,
+            url: '<%=path%>/incomeExpendServlet?method=getStatisticData',
             async: true,
             success: function (data) {
                 var msg = JSON.parse(data);
@@ -173,6 +204,22 @@
     }
 
     function generateChart(msg) {
+        if(msg.countOutcomeByType.length==0&&msg.countIncomeByType.length==0){
+            layer.msg("没有这段时间内的收支记录");
+            return;
+        }
+        if(msg.countOutcomeByType.length==0&&msg.countIncomeByType.length!=0){
+            layer.msg("没有这段时间内的支出记录");
+            setProgressBar(msg);
+            setIncomeChart(msg);
+            return;
+        }
+        if(msg.countIncomeByType.length==0&&msg.countOutcomeByType.length!=0){
+            layer.msg("没有这段时间内的收入记录");
+            setProgressBar(msg);
+            setExpandChart(msg);
+            return;
+        }
         setProgressBar(msg);
         setIncomeChart(msg);
         setExpandChart(msg);

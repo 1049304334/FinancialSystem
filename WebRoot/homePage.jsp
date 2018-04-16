@@ -66,7 +66,7 @@
     $(function(){
         $.ajax({
             type:'post',
-            url:'/loginServlet?method=getHomePageInfo',
+            url:'<%=path%>/loginServlet?method=getHomePageInfo',
             async:true,
             success:function(msg){
                 var data = JSON.parse(msg);
@@ -79,7 +79,6 @@
     })
 
     function setValueToPage(data){
-        console.log(data);
         $("#recentIncome")[0].innerText = data.recentIncome.totalIncome;
         $("#recentExpand")[0].innerText = data.recentExpand.totalExpand;
         $("#recentNotes")[0].innerText = data.recentNoteNum.num+"个待办事项";
@@ -89,19 +88,19 @@
     function showIncomes(){
         $(".layui-nav-item:eq(1)").addClass("layui-nav-itemed");
         $(".layui-nav-item:eq(1)>dl>dd:eq(1)").addClass("layui-this");
-        $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
+        $("#mainDiv").load("<%=path%>/pages/inoutcome/statistics.jsp");
     }
 
     function showDebts(){
         $(".layui-nav-item:eq(3)").addClass("layui-nav-itemed");
         $(".layui-nav-item:eq(3)>dl>dd:eq(2)").addClass("layui-this");
-        $("#mainDiv").load("/pages/debt/statistics.jsp");
+        $("#mainDiv").load("<%=path%>/pages/debt/statistics.jsp");
     }
 
     function showNotes(){
         $(".layui-nav-item:eq(4)").addClass("layui-nav-itemed");
         $(".layui-nav-item:eq(4)>dl>dd:eq(1)").addClass("layui-this");
-        $("#mainDiv").load("/pages/note/notes.jsp");
+        $("#mainDiv").load("<%=path%>/pages/note/notes.jsp");
     }
 </script>
 </body>

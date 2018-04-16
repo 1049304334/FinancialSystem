@@ -38,7 +38,8 @@ public class IncomeDaoImpl implements IncomeDao{
            .append("AND")
            .append(" t.type_direction = '收入' ")
            .append("AND")
-           .append(" t.family_id = ? ");
+           .append(" t.family_id = ? ")
+           .append("ORDER BY i.income_date DESC");
         return jt.query(sql.toString(),familyId);
     }
 
@@ -98,7 +99,8 @@ public class IncomeDaoImpl implements IncomeDao{
                 .append("AND")
                 .append(" t.type_direction = '支出' ")
                 .append("AND")
-                .append(" t.family_id = ? ");
+                .append(" t.family_id = ? ")
+        		.append("ORDER BY o.outcome_date DESC");
         return jt.query(sql.toString(),map.get("familyId"));
     }
 
@@ -112,28 +114,28 @@ public class IncomeDaoImpl implements IncomeDao{
     @Override
     public List getTotalIncome(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select sum(amount) as totalIncome from t_income where income_date > ? and family_id = ?";
-        return jt.query(sql,map.get("startDate"),map.get("familyId"));
+        String sql = "select sum(amount) as totalIncome from t_income where income_date >= ? and income_date <= ? and family_id = ?";
+        return jt.query(sql,map.get("startDate"),map.get("endDate"),map.get("familyId"));
     }
 
     @Override
     public List getTotalExpand(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select sum(amount) as totalExpand from t_outcome where outcome_date > ? and family_id = ?";
-        return jt.query(sql,map.get("startDate"),map.get("familyId"));
+        String sql = "select sum(amount) as totalExpand from t_outcome where outcome_date >= ? and outcome_date <= ? and family_id = ?";
+        return jt.query(sql,map.get("startDate"),map.get("endDate"),map.get("familyId"));
     }
 
     @Override
     public List getIncomeTypeTotal(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select sum(amount) as total,t.type_name from t_income o,t_inout_type t where o.income_type = t.type_id and income_date > ? and o.family_id = t.family_id and o.family_id = ? group by o.income_type";
-        return jt.query(sql,map.get("startDate"),map.get("familyId"));
+        String sql = "select sum(amount) as total,t.type_name from t_income o,t_inout_type t where o.income_type = t.type_id and income_date > ? and income_date < ? and o.family_id = t.family_id and o.family_id = ? group by t.type_name";
+        return jt.query(sql,map.get("startDate"),map.get("endDate"),map.get("familyId"));
     }
 
     @Override
     public List getExpandTypeTotal(HashMap map) {
         jt = (JDBCTemplate) ObjectFactory.getObject("jdbcTemplate");
-        String sql = "select sum(amount) as total,t.type_name from t_outcome o,t_inout_type t where o.outcome_type = t.type_id and outcome_date > ? and o.family_id = t.family_id and o.family_id = ? group by o.outcome_type";
-        return jt.query(sql,map.get("startDate"),map.get("familyId"));
+        String sql = "select sum(amount) as total,t.type_name from t_outcome o,t_inout_type t where o.outcome_type = t.type_id and outcome_date > ? and outcome_date < ? and o.family_id = t.family_id and o.family_id = ? group by t.type_name";
+        return jt.query(sql,map.get("startDate"),map.get("endDate"),map.get("familyId"));
     }
 }

@@ -64,5 +64,17 @@ public class LoginServiceImpl implements LoginService{
 		return json;
 	}
 
+	@Override
+	public JSONObject getUserInfo(String userId) {
+		JSONObject json = new JSONObject();
+		HashMap map = (HashMap)loginDao.getUserInfo(userId).get(0);
+		json.put("userId",map.get("id"));
+		json.put("trueName",map.get("true_name"));
+		json.put("account",map.get("user_name"));
+		json.put("password",map.get("password"));
+		json.put("familyName",map.get("family_name"));
+		return json;
+	}
+
 
 }

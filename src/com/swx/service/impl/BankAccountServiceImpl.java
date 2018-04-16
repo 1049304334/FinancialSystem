@@ -83,7 +83,6 @@ public class BankAccountServiceImpl implements BankAccountService{
     @Override
     public JSONObject getSavingStatistics(HashMap map) {
         JSONObject json = new JSONObject();
-        map.put("cycle", DateUtil.computeDate((String) map.get("cycle")));
         List depositSum = bankAccountDao.getDepositSum(map);
         List withdrawSum = bankAccountDao.getWithdrawSum(map);
         System.out.println(depositSum);

@@ -13,7 +13,7 @@ public interface IncomeDao {
 
     List<HashMap<String,Object>> getIncomeRecord(String familyId);
     List<HashMap<String, Object>> getAllTypes(String familyId);
-    void saveNewType(HashMap<String,String> typeMap);
+    void saveNewType(HashMap<String, String> typeMap);
     void deleteType(String typeId);
     List getTypes(String familyId);
     void saveIncomeRecord(HashMap map);

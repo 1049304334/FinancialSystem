@@ -69,7 +69,7 @@
 
     function loadTableData(){
         var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-        var dataUrl = "/incomeExpendServlet?method=getAllIncomeOutcomeType&familyId="+familyId;
+        var dataUrl = "<%=path%>/incomeExpendServlet?method=getAllIncomeOutcomeType&familyId="+familyId;
 
         layui.use('table', function(){
             var table = layui.table;
@@ -120,7 +120,7 @@
             type:'post',
             async:false,
             data:data,
-            url:"/homeManageServlet?method=saveNewType",
+            url:"<%=path%>/homeManageServlet?method=saveNewType",
             success:function(){
                 layer.msg("保存成功");
             },
@@ -139,7 +139,7 @@
             type:'post',
             data:data,
             async:true,
-            url:'/homeManageServlet?method=deleteType',
+            url:'<%=path%>/homeManageServlet?method=deleteType',
             error:function(){
                layer.msg("删除失败");
             }

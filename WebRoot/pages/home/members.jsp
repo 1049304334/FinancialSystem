@@ -56,7 +56,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="hideCreateModal()">取消</button>
                     <button type="button" class="layui-btn" onclick="saveNewMember()">保存</button>
                 </div>
             </div>
@@ -113,7 +113,7 @@
 
     function loadTableData(){
         var familyId = <%="'"+familyMap.get("family_id")+"'"%>;
-        var dataUrl = "/homeManageServlet?method=getAllMembers&familyId="+familyId;
+        var dataUrl = "<%=path%>/homeManageServlet?method=getAllMembers&familyId="+familyId;
 
         layui.use('table', function(){
             var table = layui.table;
@@ -146,6 +146,7 @@
 
     function hideCreateModal(){
         $("#newMemberModal").modal('hide');
+        $("#newMemberModal input").val("");
     }
 
     function saveNewMember(){
@@ -166,7 +167,7 @@
             type:'post',
             async:false,
             data:data,
-            url:"/homeManageServlet?method=createNewMember",
+            url:"<%=path%>/homeManageServlet?method=createNewMember",
             success:function(msg){
                 var status = JSON.parse(msg);
                 if(status.res=='0'){
@@ -211,7 +212,7 @@
 
         $.ajax({
             type:'post',
-            url:"/homeManageServlet?method=editMember",
+            url:"<%=path%>/homeManageServlet?method=editMember",
             data:data,
             async:true,
             success:function(){

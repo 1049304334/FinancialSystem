@@ -70,7 +70,7 @@
         $.ajax({
             type:'post',
             data:data,
-            url:'/noteServlet?method=saveNote',
+            url:'<%=path%>/noteServlet?method=saveNote',
             async:false,
             success:function(){
                 layer.msg("保存成功");

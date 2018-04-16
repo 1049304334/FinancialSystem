@@ -27,14 +27,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-
+<c:out value="${userMap['true_name']}"></c:out>
 
   <ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="test">
 	  <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-	  <li class="layui-nav-item"><a href="javascript:;"><i class="layui-icon icon-display">&#xe612;</i>&nbsp;&nbsp;<c:out value="${userMap['true_name']}"></c:out></a>
-
+	  <li class="layui-nav-item">
+		  <a href="javascript:;"><i class="layui-icon icon-display">&#xe612;</i>&nbsp;&nbsp;<c:out value="${userMap['true_name']}"></c:out></a>
+		  <dl class="layui-nav-child">
+			  <dd><a href="javascript:showMyInfo();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的信息</a></dd>
+			  <dd><a href="javascript:exitLogin();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出登录</a></dd>
+		  </dl>
 	  </li>
-	  <li class="layui-nav-item menu-item">
+	  <li class="layui-nav-item">
 		  <a href="javascript:;"><i class="layui-icon icon-display">&#xe65e;</i>&nbsp;&nbsp;收支管理</a>
 		  <dl class="layui-nav-child">
 			  <dd><a href="javascript:showIncomeAndOutcome();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收支记录</a></dd>
@@ -64,63 +68,81 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <dd><a href="javascript:showNotes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看备忘录</a></dd>
 		  </dl>
 	  </li>
-	  <li class="layui-nav-item">
-		  <a href="javascript:;"><i class="layui-icon icon-display">&#xe68e;</i>&nbsp;&nbsp;家庭管理</a>
-		  <dl class="layui-nav-child">
-			  <dd><a href="javascript:showMemberManage();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成员管理</a></dd>
-			  <dd><a href="javascript:showInOutType();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收支类型管理</a></dd>
-		  </dl>
-	  </li>
+	  
+	  <c:if test="${userMap['id'] == familyMap['admin_id']}">
+          <li class="layui-nav-item">
+			  <a href="javascript:;"><i class="layui-icon icon-display">&#xe68e;</i>&nbsp;&nbsp;家庭管理</a>
+			  <dl class="layui-nav-child">
+				  <dd><a href="javascript:showMemberManage();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成员管理</a></dd>
+				  <dd><a href="javascript:showInOutType();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收支类型管理</a></dd>
+			  </dl>
+	  	  </li>
+      </c:if>
+	  
   </ul>
   </body>
   <script>
 
       function showIncomeAndOutcome(){
-          $("#mainDiv").load("/pages/inoutcome/incomeAndExpand.jsp");
+          $("#mainDiv").load("<%=path%>/pages/inoutcome/incomeAndExpand.jsp");
       }
 
       function showInOutType(){
-          $("#mainDiv").load("/pages/home/inouttype.jsp");
+          $("#mainDiv").load("<%=path%>/pages/home/inouttype.jsp");
       }
 
       function showMemberManage(){
-          $("#mainDiv").load("/pages/home/members.jsp");
+          $("#mainDiv").load("<%=path%>/pages/home/members.jsp");
       }
 
       function showCreateNote(){
-          $("#mainDiv").load("/pages/note/createnote.jsp");
+          $("#mainDiv").load("<%=path%>/pages/note/createnote.jsp");
       }
 
       function showNotes(){
-          $("#mainDiv").load("/pages/note/notes.jsp");
+          $("#mainDiv").load("<%=path%>/pages/note/notes.jsp");
       }
 
       function showBankAccount(){
-          $("#mainDiv").load("/pages/saving/bankaccount.jsp");
+          $("#mainDiv").load("<%=path%>/pages/saving/bankaccount.jsp");
       }
 
       function showBankOperations(){
-          $("#mainDiv").load("/pages/saving/bankoperation.jsp");
+          $("#mainDiv").load("<%=path%>/pages/saving/bankoperation.jsp");
       }
 
       function showDebt(){
-          $("#mainDiv").load("/pages/debt/debt.jsp");
+          $("#mainDiv").load("<%=path%>/pages/debt/debt.jsp");
       }
 
       function showCreditor(){
-          $("#mainDiv").load("/pages/debt/creditor.jsp");
+          $("#mainDiv").load("<%=path%>/pages/debt/creditor.jsp");
       }
 
       function showIncomeExpandStatistics(){
-          $("#mainDiv").load("/pages/inoutcome/statistics.jsp");
+          $("#mainDiv").load("<%=path%>/pages/inoutcome/statistics.jsp");
       }
 
       function showSavingStatistics(){
-          $("#mainDiv").load("/pages/saving/statistics.jsp");
+          $("#mainDiv").load("<%=path%>/pages/saving/statistics.jsp");
       }
 
       function showDebtStatistics(){
-          $("#mainDiv").load("/pages/debt/statistics.jsp");
+          $("#mainDiv").load("<%=path%>/pages/debt/statistics.jsp");
+	  }
+
+	  function showMyInfo(){
+          $("#mainDiv").load("<%=path%>/pages/userinfo/myinfo.jsp");
+	  }
+
+	  function exitLogin(){
+          layer.confirm('确定退出吗？', {
+              btn: ['确定','取消']
+          }, function(){
+              location.href = '<%=path%>/loginServlet?method=exitLogin';
+          }, function(){
+
+          });
 	  }
   </script>
 </html>

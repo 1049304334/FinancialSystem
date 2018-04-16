@@ -1,6 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ page import="com.swx.po.User" %>
-<%@ page import="com.swx.po.Family" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -28,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         *   在下次查询到有即将到期的备忘录后，检查该备忘录是否已保存在noteArr中，
         *   若已保存，则代表此条信息之前已提醒，不再弹窗提醒。
         *   *刷新页面会导致noteArr被重置，所有即将到期的备忘录会再次弹窗
-        * */
+        **/
 
         var noteArr = [];
 
@@ -37,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
 
         $(function(){
-            $("#mainDiv").load("/homePage.jsp");
+            $("#mainDiv").load("<%=path%>/homePage.jsp");
         })
 
         function getNoteTips(){
@@ -54,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 type:'post',
                 data:data,
                 async:true,
-                url:'/noteServlet?method=getNoteTip',
+                url:'<%=path%>/noteServlet?method=getNoteTip',
                 success:function(res){
                     var info = JSON.parse(res);
                     if(info.notes.length > 0){
@@ -101,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         offset: 'rb', //右下角弹出
                         time: 60000, //10分钟后自动关闭
                         anim: 2,
-                        content: ['/notetip.html', 'no']
+                        content: ['<%=path%>/notetip.html', 'no']
                     });
                     noteArr.push(info.notes[i]);
                 }
@@ -110,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         //每5秒请求一次
         $(function(){
-            setInterval("getNoteTips()",5000)
+           // setInterval("getNoteTips()",5000)
         })
 
   </script>

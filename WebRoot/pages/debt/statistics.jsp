@@ -18,10 +18,10 @@
         <tr>
             <td colspan="2"></td>
             <td><label>债权总额:</label></td>
-            <td><label style="color: #FF5722;font-size: 24px" id="totalCredit">650</label></td>
+            <td><label style="color: #FF5722;font-size: 24px" id="totalCredit"></label></td>
             <td></td>
             <td><label>债务总额:</label></td>
-            <td><label style="color: #009688;font-size: 24px" id="totalDebt">623</label></td>
+            <td><label style="color: #009688;font-size: 24px" id="totalDebt"></label></td>
             <td colspan="2"></td>
         </tr>
         <tr style="height: 48px;">
@@ -87,8 +87,16 @@
     }
 
     function showTotal(msg){
-        $("#totalCredit")[0].innerText = msg.totalCredit.totalCredit;
-        $("#totalDebt")[0].innerText = msg.totalDebt.totalDebt;
+        if(msg.totalCredit.totalCredit!=undefined){
+            $("#totalCredit")[0].innerText = msg.totalCredit.totalCredit;
+        }else{
+            $("#totalCredit")[0].innerText = "无数据";
+        }
+        if(msg.totalDebt.totalDebt!=undefined){
+            $("#totalDebt")[0].innerText = msg.totalDebt.totalDebt;
+        }else{
+            $("#totalDebt")[0].innerText = "无数据";
+        }
     }
 
     function setCreditTimeline(data){

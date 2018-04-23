@@ -71,14 +71,22 @@ public class LoginServlet extends HttpServlet{
 		resp.getWriter().write(jsonObject.toString());
 	}
 	
-	public void regedit(HttpServletRequest req,HttpServletResponse resp){
+	public void regedit(HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		String familyName = req.getParameter("familyName");
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
 		String realName = req.getParameter("realName");
 		User user  = new User("",realName,"",userName,password);
 		Family family = new Family("",familyName,"");
+		System.out.println(user+"\n"+family);
 		loginService.regedit(user,family);
+		HashMap userMap = loginService.loginCheck(user.getUserName(),user.getPassword());
+		HashMap familyMap = loginService.getFamilyInfo(userMap.get("family_id").toString());
+		req.getSession().setAttribute("userMap",userMap);
+		req.getSession().setAttribute("familyMap",familyMap);
+		JSONObject json = new JSONObject();
+		json.put("res","0");
+		resp.getWriter().write(json.toString());
 	}
 		
 	public void regeditCheck(HttpServletRequest req,HttpServletResponse resp) throws IOException {

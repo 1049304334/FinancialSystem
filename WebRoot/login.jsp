@@ -90,6 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    var info = JSON.parse(msg)
 						if(info.res=="fail"){
 						    layer.msg("用户名或密码错误");
+                            changeCode();
 						    return;
 						}else if(info.res=="1"){
 						    layer.alert("验证码错误");

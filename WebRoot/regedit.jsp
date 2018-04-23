@@ -113,7 +113,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 
 		function regedit(){
-		    $("#regeditForm").submit();
+		    var formData = new FormData($("#regeditForm")[0])
+		    $.ajax({
+				type:'post',
+				url:'<%=path%>/loginServlet?method=regedit',
+				data:$("#regeditForm").serialize(),
+				success:function(data){
+				    var msg = JSON.parse(data)
+					if(msg.res=='0'){
+                        layer.confirm('注册成功，点击确定自动登录。', {
+                            btn: ['确定','取消']
+                        }, function(){
+                            location.href='<%=path%>/index.jsp';
+                        }, function(){
+                        });
+					}else{
+					    layer.alert("注册失败");
+                    }
+				},
+				error:function(){
+				    layer.msg("请求失败");
+				}
+			})
 		}
 	</script>
   </body>

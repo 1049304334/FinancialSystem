@@ -79,8 +79,16 @@
     })
 
     function setValueToPage(data){
-        $("#recentIncome")[0].innerText = data.recentIncome.totalIncome;
-        $("#recentExpand")[0].innerText = data.recentExpand.totalExpand;
+        if(data.recentIncome.totalIncome!=undefined){
+            $("#recentIncome")[0].innerText = data.recentIncome.totalIncome;
+        }else{
+            $("#recentIncome")[0].innerText = "无数据"
+        }
+        if(data.recentExpand.totalExpand!=undefined){
+            $("#recentExpand")[0].innerText = data.recentExpand.totalExpand;
+        }else{
+            $("#recentExpand")[0].innerText = "无数据"
+        }
         $("#recentNotes")[0].innerText = data.recentNoteNum.num+"个待办事项";
         $("#recentDebts")[0].innerText = "共"+(parseInt(data.recentCreditNum.num)+parseInt(data.recentDebtNum.num))+"笔";
     }

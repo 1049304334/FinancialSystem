@@ -53,11 +53,11 @@ public class LoginServlet extends HttpServlet{
 		String password = req.getParameter("password");
 		String veriCode = req.getParameter("veriCode");
 		String code = (String) req.getSession().getAttribute("code");
-		if(!code.equals(veriCode)){
+		/*if(!code.equals(veriCode)){
 			jsonObject.put("res","1");
 			resp.getWriter().write(jsonObject.toString());
 			return;
-		}
+		}*/
 		HashMap<String,Object> userMap = loginService.loginCheck(userName,password);
 		if(userMap==null){
 			jsonObject.put("res","fail");
@@ -78,7 +78,6 @@ public class LoginServlet extends HttpServlet{
 		String realName = req.getParameter("realName");
 		User user  = new User("",realName,"",userName,password);
 		Family family = new Family("",familyName,"");
-		System.out.println(user+"\n"+family);
 		loginService.regedit(user,family);
 		HashMap userMap = loginService.loginCheck(user.getUserName(),user.getPassword());
 		HashMap familyMap = loginService.getFamilyInfo(userMap.get("family_id").toString());

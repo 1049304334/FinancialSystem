@@ -16,7 +16,7 @@ public class ReqParamToMap {
      * @return
      */
     public static HashMap<String,Object> param2Map(HttpServletRequest req){
-        HashMap<String, Object> paramMap = new HashMap<String,Object>();
+        HashMap<String, Object> paramMap = new HashMap();
         Enumeration enu=req.getParameterNames();
         while(enu.hasMoreElements()){
             String paraName=(String)enu.nextElement();

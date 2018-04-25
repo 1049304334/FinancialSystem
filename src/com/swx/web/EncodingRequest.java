@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * <request装饰类，编码过滤器使用>
- * 
+ *
  * @author zj
  * @version [V1.0.0,2017-4-10]
  *

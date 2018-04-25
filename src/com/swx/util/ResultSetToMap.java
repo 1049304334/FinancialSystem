@@ -15,7 +15,7 @@ public class ResultSetToMap {
 
     public static List<Map<String ,Object>> resultSetToMap(ResultSet rs) throws SQLException {
 
-        List<Map<String,Object>> infoList = new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> infoList = new ArrayList<>();
         ResultSetMetaData metaData = rs.getMetaData();
         int cols = metaData.getColumnCount();
         List<String> colNames = new ArrayList<String>();

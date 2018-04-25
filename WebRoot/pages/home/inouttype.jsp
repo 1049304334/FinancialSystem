@@ -102,10 +102,14 @@
 
     function showModal(){
         $("#newTypeModal").modal('show');
+        $("#newTypeModal input").val("");
+        $("#newTypeModal select").val("");
     }
 
     function hideModal(){
         $("#newTypeModal").modal('hide');
+        $("#newTypeModal input").val("");
+        $("#newTypeModal select").val("");
     }
 
     function saveNewType(){
